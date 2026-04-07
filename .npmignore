@@ -1,0 +1,13 @@
+.DS_Store
+.gradle
+build
+workplace
+api-docs
+.npm-cache
+plugin-halo-plugin-rsbuild
+plugin-halo-plugin-vite
+ui/.gradle
+ui/build
+ui/node_modules
+ui/.npm-cache
+ui/.vite

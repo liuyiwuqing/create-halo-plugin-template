@@ -1,0 +1,39 @@
+kind: Role
+apiVersion: v1alpha1
+metadata:
+  name: rt-console.halo-plugin-template.halo.run-view
+  labels:
+    halo.run/role-template: "true"
+  annotations:
+    rbac.authorization.halo.run/ui-permissions: |
+      ["plugin:halo-plugin-template:view"]
+    rbac.authorization.halo.run/display-name: "Halo 插件模板查看权限"
+    rbac.authorization.halo.run/module: "Halo 插件模板"
+rules:
+  - apiGroups:
+      - console.halo-plugin-template.halo.run
+    resources:
+      - template-overview
+    verbs:
+      - get
+      - list
+---
+kind: Role
+apiVersion: v1alpha1
+metadata:
+  name: rt-console.halo-plugin-template.halo.run-manage
+  labels:
+    halo.run/role-template: "true"
+  annotations:
+    rbac.authorization.halo.run/ui-permissions: |
+      ["plugin:halo-plugin-template:manage"]
+    rbac.authorization.halo.run/display-name: "Halo 插件模板管理权限"
+    rbac.authorization.halo.run/module: "Halo 插件模板"
+rules:
+  - apiGroups:
+      - console.halo-plugin-template.halo.run
+    resources:
+      - template-overview
+    verbs:
+      - get
+      - list

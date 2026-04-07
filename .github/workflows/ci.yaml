@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  starter-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify starter consistency
+        run: node scripts/verify-template.mjs
+
+  ci:
+    needs:
+      - starter-guard
+    uses: halo-sigs/reusable-workflows/.github/workflows/plugin-ci.yaml@v3
+    with:
+      ui-path: "ui"
+      pnpm-version: 10
+      node-version: 22
+      java-version: 21

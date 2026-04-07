@@ -1,0 +1,24 @@
+.halo-plugin-template-admin-shell {
+  --el-color-primary: var(--halo-plugin-template-color-primary);
+  --el-color-success: var(--halo-plugin-template-color-accent);
+  --el-color-warning: var(--halo-plugin-template-color-warning);
+  --el-color-danger: var(--halo-plugin-template-color-danger);
+  --el-border-radius-base: 14px;
+  --el-border-color: rgba(148, 163, 184, 0.16);
+  --el-fill-color-blank: transparent;
+  --el-bg-color: rgba(255, 255, 255, 0.92);
+  --el-bg-color-page: transparent;
+  --el-text-color-primary: var(--halo-plugin-template-text-primary);
+  --el-text-color-regular: var(--halo-plugin-template-text-secondary);
+  --el-text-color-placeholder: var(--halo-plugin-template-text-muted);
+  --el-table-border-color: rgba(148, 163, 184, 0.12);
+  --el-table-header-bg-color: rgba(248, 250, 252, 0.86);
+  --el-table-row-hover-bg-color: rgba(36, 87, 245, 0.06);
+}
+
+.halo-plugin-template-admin-shell.dark {
+  --el-bg-color: rgba(15, 23, 42, 0.88);
+  --el-fill-color-blank: rgba(15, 23, 42, 0.72);
+  --el-table-header-bg-color: rgba(30, 41, 59, 0.88);
+  --el-table-tr-bg-color: transparent;
+}

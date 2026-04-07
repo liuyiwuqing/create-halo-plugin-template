@@ -1,0 +1,47 @@
+apiVersion: v1alpha1
+kind: Setting
+metadata:
+  name: halo-plugin-template-settings
+spec:
+  forms:
+    - group: general
+      label: 通用设置
+      formSchema:
+        - $formkit: switch
+          name: enableConsoleDashboard
+          label: 启用 Console 工作台
+          value: true
+          help: 控制插件默认 Console 页面和仪表盘小部件是否启用。
+        - $formkit: switch
+          name: enableUcDashboard
+          label: 启用 UC 页面
+          value: true
+          help: 控制插件是否向 Halo UC 注册默认示例页面。
+        - $formkit: switch
+          name: enableAttachmentProvider
+          label: 启用附件扩展标签页
+          value: true
+          help: 开启后在附件选择器里显示模板扩展示例。
+    - group: ui
+      label: 界面主题
+      formSchema:
+        - $formkit: color
+          name: accentColor
+          label: 主色
+          value: "#2457F5"
+        - $formkit: radio
+          name: density
+          label: 页面密度
+          value: balanced
+          options:
+            - value: compact
+              label: 紧凑
+            - value: balanced
+              label: 平衡
+            - value: relaxed
+              label: 宽松
+        - $formkit: text
+          name: supportLink
+          label: 支持地址
+          value: "https://docs.halo.run/developer-guide/plugin/introduction"
+          help: 模板页右上角默认按钮可直接跳转到该地址。

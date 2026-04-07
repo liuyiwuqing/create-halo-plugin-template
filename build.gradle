@@ -1,0 +1,103 @@
+plugins {
+    id 'java'
+    id "io.freefair.lombok" version "9.2.0"
+    id "run.halo.plugin.devtools" version "0.6.2"
+}
+
+group 'run.halo.plugintemplate'
+
+ext {
+    haloPlatformVersion = '2.23.0'
+    javaReleaseVersion = 21
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation platform("run.halo.tools.platform:plugin:$haloPlatformVersion")
+    compileOnly 'run.halo.app:api'
+
+    testImplementation 'run.halo.app:api'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(javaReleaseVersion)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+    options.release = javaReleaseVersion
+}
+
+tasks.register('processUiResources', Copy) {
+    from project(':ui').layout.buildDirectory.dir('dist')
+    into layout.buildDirectory.dir('resources/main/console')
+    dependsOn project(':ui').tasks.named('assemble')
+    shouldRunAfter tasks.named('processResources')
+}
+
+tasks.named('classes') {
+    dependsOn tasks.named('processUiResources')
+}
+
+tasks.matching { it.name == 'haloServer' || it.name == 'createHaloContainer' }.configureEach {
+    dependsOn tasks.named('processUiResources')
+}
+
+tasks.named('generatePluginComponentsIdx') {
+    notCompatibleWithConfigurationCache('This task invokes "Task.project" at execution time, which is not supported with configuration cache.')
+}
+
+tasks.register('verifyTemplateConsistency', Exec) {
+    group = 'verification'
+    description = 'Verify the starter repository or initialized plugin stays internally consistent'
+    commandLine 'node', 'scripts/verify-template.mjs'
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyTemplateConsistency')
+}
+
+halo {
+    version = '2.23'
+}
+
+haloPlugin {
+    openApi {
+        outputDir = file("$rootDir/api-docs/openapi/v3_0")
+        groupingRules {
+            templateApis {
+                displayName = 'Extension API for halo-plugin-template'
+                pathsToMatch = [
+                        '/apis/console.halo-plugin-template.halo.run/v1alpha1/**',
+                        '/apis/uc.halo-plugin-template.halo.run/v1alpha1/**'
+                ]
+            }
+        }
+        groupedApiMappings = [
+                '/v3/api-docs/templateApis': 'templateApis.json'
+        ]
+        generator {
+            outputDir = file("${projectDir}/ui/src/api/generated")
+        }
+    }
+
+    watchDomains {
+        uiSource {
+            files files('ui/src/', 'ui/vite.config.ts', 'ui/package.json')
+        }
+        pluginSource {
+            files files('src/main/java/', 'src/main/resources/')
+        }
+    }
+}

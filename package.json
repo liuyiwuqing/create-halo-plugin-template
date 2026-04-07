@@ -1,0 +1,70 @@
+{
+  "name": "create-halo-plugin-template",
+  "version": "0.1.0",
+  "description": "Create and initialize reusable Halo plugin starter projects.",
+  "type": "module",
+  "license": "GPL-3.0",
+  "author": {
+    "name": "柳意梧情",
+    "url": "https://github.com/liuyiwuqing"
+  },
+  "homepage": "https://github.com/liuyiwuqing/create-halo-plugin#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liuyiwuqing/create-halo-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/liuyiwuqing/create-halo-plugin/issues"
+  },
+  "bin": {
+    "create-halo-plugin-template": "bin/create-halo-plugin-template.js"
+  },
+  "files": [
+    ".editorconfig",
+    ".github",
+    ".gitignore",
+    "LICENSE",
+    "README.md",
+    "bin",
+    "build.gradle",
+    "docs",
+    "gradle",
+    "gradle.properties",
+    "gradlew",
+    "gradlew.bat",
+    "scripts",
+    "settings.gradle",
+    "src/main",
+    "src/test",
+    "ui/build.gradle",
+    "ui/env.d.ts",
+    "ui/eslint.config.ts",
+    "ui/package.json",
+    "ui/pnpm-lock.yaml",
+    "ui/src",
+    "ui/tsconfig.app.json",
+    "ui/tsconfig.json",
+    "ui/tsconfig.node.json",
+    "ui/tsconfig.vitest.json",
+    "ui/vite.config.ts"
+  ],
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "halo",
+    "halo-plugin",
+    "scaffold",
+    "template",
+    "create"
+  ],
+  "scripts": {
+    "create": "node scripts/create-project.mjs",
+    "pack:check": "node scripts/publish-check.mjs --pack-only",
+    "publish:check": "node scripts/publish-check.mjs",
+    "verify:template": "node scripts/verify-template.mjs"
+  }
+}

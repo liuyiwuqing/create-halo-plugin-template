@@ -1,0 +1,24 @@
+# Refer https://docs.halo.run/developer-guide/plugin/basics/manifest
+
+apiVersion: plugin.halo.run/v1alpha1
+kind: Plugin
+metadata:
+  # The name defines how the plugin is invoked, A unique name
+  name: halo-plugin-template
+spec:
+  enabled: true
+  requires: ">=2.23.0"
+  author:
+    name: Template Author
+    website: https://github.com/example
+  logo: logo.png
+  settingName: halo-plugin-template-settings
+  configMapName: halo-plugin-template-configmap
+  homepage: https://github.com/example/halo-plugin-template#readme
+  repo: https://github.com/example/halo-plugin-template
+  issues: https://github.com/example/halo-plugin-template/issues
+  displayName: "Halo Plugin Template"
+  description: "Halo plugin starter with Vite, Element Plus, extension points, and an initialization script."
+  license:
+    - name: "GPL-3.0"
+      url: "https://github.com/example/halo-plugin-template/blob/main/LICENSE"
