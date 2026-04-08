@@ -25,11 +25,13 @@
 
 ```bash
 node scripts/create-project.mjs \
-  --plugin-name hello-world \
+  --plugin-name todo \
   --base-package com.example.helloworld \
-  --display-name "Hello World" \
+  --display-name "Todo" \
   --author-name "Your Name" \
-  --target-dir ../hello-world \
+  --route-prefix /plugin-todo \
+  --permission-prefix plugin:plugin-todo \
+  --target-dir ../plugin-todo \
   --install \
   --build
 ```
@@ -48,9 +50,9 @@ node scripts/create-project.mjs \
 
 ```bash
 npm create halo-plugin-template@latest -- \
-  --plugin-name hello-world \
+  --plugin-name todo \
   --base-package com.example.helloworld \
-  --display-name "Hello World" \
+  --display-name "Todo" \
   --author-name "Your Name"
 ```
 
@@ -93,13 +95,15 @@ npm run release:prepare -- --bump patch --push
 
 ```bash
 node scripts/init-template.mjs \
-  --plugin-name hello-world \
+  --plugin-name todo \
   --base-package com.example.helloworld \
-  --display-name "Hello World" \
+  --display-name "Todo" \
   --author-name "Your Name" \
+  --route-prefix /plugin-todo \
+  --permission-prefix plugin:plugin-todo \
   --author-website "https://github.com/your-name" \
   --repo-owner your-name \
-  --description "Hello World - Halo 插件"
+  --description "Todo - Halo 插件"
 ```
 
 这个脚本是一次性的。执行后会连同自身模板常量一起改写，确保生成出来的项目里不再残留模板占位符。
@@ -108,10 +112,12 @@ node scripts/init-template.mjs \
 
 ```bash
 node scripts/verify-template.mjs \
-  --plugin-name hello-world \
+  --plugin-name todo \
   --base-package com.example.helloworld \
-  --display-name "Hello World" \
-  --author-name "Your Name"
+  --display-name "Todo" \
+  --author-name "Your Name" \
+  --route-prefix /plugin-todo \
+  --permission-prefix plugin:plugin-todo
 ```
 
 然后安装前端依赖并启动开发环境：

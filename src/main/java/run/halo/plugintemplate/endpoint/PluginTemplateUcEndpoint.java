@@ -9,12 +9,14 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import run.halo.app.core.extension.endpoint.CustomEndpoint;
 import run.halo.app.extension.GroupVersion;
 import run.halo.plugintemplate.endpoint.routes.PluginTemplateOverviewRoutes;
+import run.halo.plugintemplate.setting.PluginTemplateSettingKeys;
 
 @Component
 @RequiredArgsConstructor
 public class PluginTemplateUcEndpoint implements CustomEndpoint {
 
-    public static final String UC_GROUP_VERSION = "uc.halo-plugin-template.halo.run/v1alpha1";
+    public static final String UC_GROUP_VERSION = "uc."
+        + PluginTemplateSettingKeys.API_GROUP_SUFFIX + "/v1alpha1";
     public static final String UC_TAG = "PluginTemplateUc";
 
     private final PluginTemplateOverviewRoutes overviewRoutes;

@@ -8,12 +8,13 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import run.halo.app.extension.AbstractExtension;
 import run.halo.app.extension.GVK;
+import run.halo.plugintemplate.setting.PluginTemplateSettingKeys;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @GVK(
-    group = "halo-plugin-template.halo.run",
+    group = PluginTemplateSettingKeys.API_GROUP_SUFFIX,
     version = "v1alpha1",
     kind = "PluginTemplateRecord",
     plural = "pluginTemplateRecords",

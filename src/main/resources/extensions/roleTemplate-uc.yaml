@@ -1,7 +1,7 @@
 kind: Role
 apiVersion: v1alpha1
 metadata:
-  name: rt-uc.halo-plugin-template.halo.run-personal
+  name: rt-uc.plugintemplate.halo.run-personal
   labels:
     halo.run/role-template: "true"
   annotations:
@@ -11,7 +11,7 @@ metadata:
     rbac.authorization.halo.run/module: "Halo 插件模板"
 rules:
   - apiGroups:
-      - uc.halo-plugin-template.halo.run
+      - uc.plugintemplate.halo.run
     resources:
       - template-overview
     verbs:

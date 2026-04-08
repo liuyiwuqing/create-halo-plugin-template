@@ -5,6 +5,11 @@ import path from 'node:path'
 import process from 'node:process'
 import { spawn } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
+import {
+  normalizePermissionPrefix,
+  normalizePluginName,
+  normalizeRoutePrefix,
+} from './lib/template-meta.mjs'
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const TEMPLATE_ROOT = path.resolve(SCRIPT_DIR, '..')
@@ -22,37 +27,32 @@ const SKIP_RELATIVE_PATHS = new Set([
   '.npmignore',
   '.github/workflows/publish-npm.yaml',
   'bin',
+  'docs',
   'docs/publish-template.md',
   'package.json',
   'package-lock.json',
   'pnpm-lock.yaml',
-  'scripts/create-project.mjs',
-  'scripts/publish-check.mjs',
+  'scripts',
   'ui/build',
 ])
 
 const usage = `
 Usage:
   node scripts/create-project.mjs \\
-    --plugin-name hello-world \\
+    --plugin-name todo \\
     --base-package com.example.helloworld \\
-    --display-name "Hello World" \\
+    --display-name "Todo" \\
     --author-name "Your Name" \\
-    [--target-dir ../hello-world] \\
+    [--route-prefix /plugin-todo] \\
+    [--permission-prefix plugin:plugin-todo] \\
+    [--target-dir ../plugin-todo] \\
     [--author-website "https://github.com/your-name"] \\
     [--repo-owner your-name] \\
-    [--description "Hello World - Halo 插件"] \\
+    [--description "Todo - Halo 插件"] \\
     [--install] \\
     [--build] \\
     [--halo-server]
 `.trim()
-
-const slugify = (value) =>
-  value
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
 
 const parseArgs = (argv) => {
   const parsed = {
@@ -121,7 +121,9 @@ const parseArgs = (argv) => {
     }
   }
 
-  const pluginName = slugify(parsed['plugin-name'])
+  const pluginName = normalizePluginName(parsed['plugin-name'])
+  const routePrefix = normalizeRoutePrefix(parsed['route-prefix'], pluginName)
+  const permissionPrefix = normalizePermissionPrefix(parsed['permission-prefix'], pluginName)
 
   return {
     pluginName,
@@ -131,6 +133,8 @@ const parseArgs = (argv) => {
     authorWebsite: parsed['author-website'] || '',
     repoOwner: parsed['repo-owner'] || '',
     description: parsed.description || '',
+    routePrefix,
+    permissionPrefix,
     targetDir: path.resolve(parsed['target-dir'] || path.resolve(process.cwd(), pluginName)),
     install: parsed.install,
     build: parsed.build,
@@ -146,6 +150,12 @@ const shouldCopy = (sourcePath) => {
   const relativePath = normalizeRelativePath(sourcePath)
   if (!relativePath) {
     return true
+  }
+
+  for (const skippedPath of SKIP_RELATIVE_PATHS) {
+    if (relativePath === skippedPath || relativePath.startsWith(`${skippedPath}/`)) {
+      return false
+    }
   }
 
   if (SKIP_RELATIVE_PATHS.has(relativePath)) {
@@ -200,8 +210,8 @@ const buildGeneratedReadme = (options) => `# ${options.displayName}
 
 - 插件名：\`${options.pluginName}\`
 - Java 包名：\`${options.basePackage}\`
-- UI 路由前缀：\`/${options.pluginName}\`
-- 权限前缀：\`plugin:${options.pluginName}:*\`
+- UI 路由前缀：\`${options.routePrefix}\`
+- 权限前缀：\`${options.permissionPrefix}:*\`
 
 ## 环境要求
 
@@ -234,9 +244,6 @@ pnpm dev
 # 后端单测
 ./gradlew test
 
-# 一致性检查
-node scripts/verify-template.mjs
-
 # 前端检查
 cd ui
 pnpm verify
@@ -253,7 +260,8 @@ cd ..
 
 - 后端先补接口和 Springdoc 注解，再执行 \`./gradlew generateApiClient\`。
 - 前端统一从 \`ui/src/api/index.ts\` 暴露 API，不要在页面里写裸 URL。
-- 如果这个插件不需要 UC、附件扩展或仪表盘部件，尽早裁剪，避免模板示例残留。
+- 通过 \`--route-prefix\` 和 \`--permission-prefix\` 传入的规则已经写入项目，不需要再手工全局替换。
+- 生成项目默认不再附带模板仓库的 \`docs/\` 和 \`scripts/\` 目录，保持业务仓库更轻。
 
 ## 目录说明
 
@@ -264,12 +272,10 @@ cd ..
 - \`ui/src/components/\`：业务级共享组件
 - \`ui/src/api/index.ts\`：前端唯一 API 包装出口
 - \`ui/src/api/generated/\`：由 \`generateApiClient\` 生成并已接入的客户端代码
-- \`docs/rsbuild-switch.md\`：从当前模板切换到 Rsbuild 的最小差异说明
-- \`docs/template-pruning.md\`：初始化后如何裁剪模板能力的操作建议
 
 ## 裁剪模板
 
-如果你只做 Console 页面，或不需要附件扩展、UC 页面，可以参考 [docs/template-pruning.md](./docs/template-pruning.md) 做删减。
+如果你只做 Console 页面，或不需要附件扩展、UC 页面，直接删除对应的 \`ucRoutes\`、扩展点和角色模板即可。
 
 ## 许可证
 
@@ -286,7 +292,7 @@ const writeGeneratedReadme = async (options) => {
 
 const buildInitArgs = (options) => {
   const args = [
-    path.join('scripts', 'init-template.mjs'),
+    path.join(SCRIPT_DIR, 'init-template.mjs'),
     '--plugin-name',
     options.pluginName,
     '--base-package',
@@ -295,6 +301,10 @@ const buildInitArgs = (options) => {
     options.displayName,
     '--author-name',
     options.authorName,
+    '--route-prefix',
+    options.routePrefix,
+    '--permission-prefix',
+    options.permissionPrefix,
   ]
 
   if (options.authorWebsite) {
@@ -312,7 +322,7 @@ const buildInitArgs = (options) => {
 
 const buildVerifyArgs = (options) => {
   const args = [
-    path.join('scripts', 'verify-template.mjs'),
+    path.join(SCRIPT_DIR, 'verify-template.mjs'),
     '--plugin-name',
     options.pluginName,
     '--base-package',
@@ -321,6 +331,10 @@ const buildVerifyArgs = (options) => {
     options.displayName,
     '--author-name',
     options.authorName,
+    '--route-prefix',
+    options.routePrefix,
+    '--permission-prefix',
+    options.permissionPrefix,
   ]
 
   if (options.authorWebsite) {

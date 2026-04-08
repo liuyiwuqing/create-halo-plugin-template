@@ -1,7 +1,7 @@
 kind: Role
 apiVersion: v1alpha1
 metadata:
-  name: rt-console.halo-plugin-template.halo.run-view
+  name: rt-console.plugintemplate.halo.run-view
   labels:
     halo.run/role-template: "true"
   annotations:
@@ -11,7 +11,7 @@ metadata:
     rbac.authorization.halo.run/module: "Halo 插件模板"
 rules:
   - apiGroups:
-      - console.halo-plugin-template.halo.run
+      - console.plugintemplate.halo.run
     resources:
       - template-overview
     verbs:
@@ -21,7 +21,7 @@ rules:
 kind: Role
 apiVersion: v1alpha1
 metadata:
-  name: rt-console.halo-plugin-template.halo.run-manage
+  name: rt-console.plugintemplate.halo.run-manage
   labels:
     halo.run/role-template: "true"
   annotations:
@@ -31,7 +31,7 @@ metadata:
     rbac.authorization.halo.run/module: "Halo 插件模板"
 rules:
   - apiGroups:
-      - console.halo-plugin-template.halo.run
+      - console.plugintemplate.halo.run
     resources:
       - template-overview
     verbs:

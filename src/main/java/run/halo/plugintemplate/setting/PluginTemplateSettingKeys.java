@@ -6,8 +6,12 @@ public final class PluginTemplateSettingKeys {
     public static final String DISPLAY_NAME = "Halo Plugin Template";
     public static final String SETTING_NAME = "halo-plugin-template-settings";
     public static final String CONFIG_MAP_NAME = "halo-plugin-template-configmap";
-    public static final String CONSOLE_PATH = "/halo-plugin-template";
-    public static final String UC_PATH = "/halo-plugin-template";
+    public static final String ROUTE_PREFIX = "/halo-plugin-template";
+    public static final String PERMISSION_PREFIX = "plugin:halo-plugin-template";
+    public static final String API_GROUP_SUFFIX = "plugintemplate.halo.run";
+    public static final String API_GROUP_KEY = "plugintemplate";
+    public static final String CONSOLE_PATH = ROUTE_PREFIX;
+    public static final String UC_PATH = ROUTE_PREFIX;
     public static final String GENERATED_CLIENT_PATH = "ui/src/api/generated";
     public static final String GENERAL_GROUP = "general";
     public static final String UI_GROUP = "ui";

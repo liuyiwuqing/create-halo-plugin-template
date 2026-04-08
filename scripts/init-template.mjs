@@ -3,11 +3,22 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
+import {
+  getApiGroupKey,
+  normalizePermissionPrefix,
+  normalizePluginName,
+  normalizeRoutePrefix,
+  reverseBasePackage,
+  toClassPrefix,
+  toKebabToken,
+} from './lib/template-meta.mjs'
 
 const TEMPLATE = {
   pluginName: 'halo-plugin-template',
   basePackage: 'run.halo.plugintemplate',
   classPrefix: 'PluginTemplate',
+  routePrefix: '/halo-plugin-template',
+  permissionPrefix: 'plugin:halo-plugin-template',
   displayName: 'Halo Plugin Template',
   authorName: 'Template Author',
   authorWebsite: 'https://github.com/example',
@@ -48,35 +59,16 @@ const SKIP_DIRS = new Set([
 const usage = `
 Usage:
   node scripts/init-template.mjs \\
-    --plugin-name hello-world \\
+    --plugin-name todo \\
     --base-package com.example.helloworld \\
-    --display-name "Hello World" \\
+    --display-name "Todo" \\
     --author-name "Your Name" \\
+    [--route-prefix /plugin-todo] \\
+    [--permission-prefix plugin:plugin-todo] \\
     [--author-website "https://github.com/your-name"] \\
     [--repo-owner your-name] \\
-    [--description "Hello World - Halo 插件"]
+    [--description "Todo - Halo 插件"]
 `.trim()
-
-const slugify = (value) =>
-  value
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-
-const toClassPrefix = (pluginName) => {
-  const parts = pluginName.split(/[^a-zA-Z0-9]+/).filter(Boolean)
-  if (!parts.length) {
-    return 'PluginTemplate'
-  }
-  return parts.map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join('')
-}
-
-const toKebabToken = (value) =>
-  value
-    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
-    .replace(/[^a-zA-Z0-9]+/g, '-')
-    .toLowerCase()
 
 const parseArgs = (argv) => {
   const parsed = {}
@@ -102,10 +94,12 @@ const parseArgs = (argv) => {
   }
 
   return {
-    pluginName: slugify(parsed['plugin-name']),
+    pluginName: normalizePluginName(parsed['plugin-name']),
     basePackage: parsed['base-package'].trim(),
     displayName: parsed['display-name'].trim(),
     authorName: parsed['author-name'].trim(),
+    routePrefix: normalizeRoutePrefix(parsed['route-prefix'], normalizePluginName(parsed['plugin-name'])),
+    permissionPrefix: normalizePermissionPrefix(parsed['permission-prefix'], normalizePluginName(parsed['plugin-name'])),
     authorWebsite: parsed['author-website']?.trim() || '',
     repoOwner: parsed['repo-owner']?.trim() || '',
     description: parsed.description?.trim() || '',
@@ -168,7 +162,33 @@ const pruneEmptyDirectories = async (startPath, stopPath) => {
   }
 }
 
-const renamePackageDirectory = async (sourceRoot, targetRoot) => {
+const pruneEmptyDirectoriesRecursively = async (directory, stopPath) => {
+  let entries
+
+  try {
+    entries = await fs.readdir(directory, { withFileTypes: true })
+  } catch {
+    return
+  }
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) {
+      continue
+    }
+    await pruneEmptyDirectoriesRecursively(path.join(directory, entry.name), stopPath)
+  }
+
+  if (directory === stopPath) {
+    return
+  }
+
+  const remainingEntries = await fs.readdir(directory)
+  if (remainingEntries.length === 0) {
+    await fs.rmdir(directory)
+  }
+}
+
+const renamePackageDirectory = async (sourceRoot, targetRoot, pruneStopPath) => {
   try {
     await fs.access(sourceRoot)
   } catch {
@@ -177,7 +197,7 @@ const renamePackageDirectory = async (sourceRoot, targetRoot) => {
 
   await fs.mkdir(path.dirname(targetRoot), { recursive: true })
   await fs.rename(sourceRoot, targetRoot)
-  await pruneEmptyDirectories(path.dirname(sourceRoot), path.dirname(path.dirname(sourceRoot)))
+  await pruneEmptyDirectories(path.dirname(sourceRoot), pruneStopPath)
 }
 
 const collectRenameTargets = async (directory, token, result = []) => {
@@ -221,6 +241,10 @@ const main = async () => {
     const authorWebsite = options.authorWebsite || `https://github.com/${repoOwner}`
     const description = options.description || `${options.displayName} - Halo 插件`
     const nextPackagePath = options.basePackage.split('.').join('/')
+    const templateApiGroup = reverseBasePackage(TEMPLATE.basePackage)
+    const nextApiGroup = reverseBasePackage(options.basePackage)
+    const templateApiGroupKey = getApiGroupKey(TEMPLATE.basePackage)
+    const nextApiGroupKey = getApiGroupKey(options.basePackage)
 
     const replacements = [
       [
@@ -242,6 +266,11 @@ const main = async () => {
       [TEMPLATE.authorWebsite, authorWebsite],
       [TEMPLATE_PACKAGE_PATH, nextPackagePath],
       [TEMPLATE.basePackage, options.basePackage],
+      [TEMPLATE.routePrefix, options.routePrefix],
+      [TEMPLATE.permissionPrefix, options.permissionPrefix],
+      [templateApiGroup, nextApiGroup],
+      [`${templateApiGroupKey}Apis`, `${nextApiGroupKey}Apis`],
+      [`"${templateApiGroupKey}"`, `"${nextApiGroupKey}"`],
       [TEMPLATE.classPrefix, classPrefix],
       [TEMPLATE.displayName, options.displayName],
       [TEMPLATE.description, description],
@@ -258,17 +287,23 @@ const main = async () => {
     await renamePackageDirectory(
       path.join(ROOT, 'src/main/java', TEMPLATE_PACKAGE_PATH),
       path.join(ROOT, 'src/main/java', nextPackagePath),
+      path.join(ROOT, 'src/main/java'),
     )
     await renamePackageDirectory(
       path.join(ROOT, 'src/test/java', TEMPLATE_PACKAGE_PATH),
       path.join(ROOT, 'src/test/java', nextPackagePath),
+      path.join(ROOT, 'src/test/java'),
     )
+    await pruneEmptyDirectoriesRecursively(path.join(ROOT, 'src/main/java'), path.join(ROOT, 'src/main/java'))
+    await pruneEmptyDirectoriesRecursively(path.join(ROOT, 'src/test/java'), path.join(ROOT, 'src/test/java'))
     await renameClassPrefixPaths(ROOT, TEMPLATE.classPrefix, classPrefix)
     await renameClassPrefixPaths(ROOT, templateClassPrefixKebab, classPrefixKebab)
 
     console.log(`Initialized template as ${options.pluginName}`)
     console.log(`Base package: ${options.basePackage}`)
     console.log(`Class prefix: ${classPrefix}`)
+    console.log(`Route prefix: ${options.routePrefix}`)
+    console.log(`Permission prefix: ${options.permissionPrefix}`)
     console.log(`Repository owner: ${repoOwner}`)
   } catch (error) {
     console.error(error instanceof Error ? error.message : String(error))

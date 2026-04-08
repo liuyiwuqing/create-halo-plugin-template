@@ -58,14 +58,16 @@ tasks.named('generatePluginComponentsIdx') {
     notCompatibleWithConfigurationCache('This task invokes "Task.project" at execution time, which is not supported with configuration cache.')
 }
 
-tasks.register('verifyTemplateConsistency', Exec) {
-    group = 'verification'
-    description = 'Verify the starter repository or initialized plugin stays internally consistent'
-    commandLine 'node', 'scripts/verify-template.mjs'
-}
+if (file('scripts/verify-template.mjs').exists()) {
+    tasks.register('verifyTemplateConsistency', Exec) {
+        group = 'verification'
+        description = 'Verify the starter repository or initialized plugin stays internally consistent'
+        commandLine 'node', 'scripts/verify-template.mjs'
+    }
 
-tasks.named('check') {
-    dependsOn tasks.named('verifyTemplateConsistency')
+    tasks.named('check') {
+        dependsOn tasks.named('verifyTemplateConsistency')
+    }
 }
 
 halo {
@@ -76,16 +78,17 @@ haloPlugin {
     openApi {
         outputDir = file("$rootDir/api-docs/openapi/v3_0")
         groupingRules {
-            templateApis {
+            plugintemplateApis {
                 displayName = 'Extension API for halo-plugin-template'
                 pathsToMatch = [
-                        '/apis/console.halo-plugin-template.halo.run/v1alpha1/**',
-                        '/apis/uc.halo-plugin-template.halo.run/v1alpha1/**'
+                        '/apis/console.plugintemplate.halo.run/v1alpha1/**',
+                        '/apis/uc.plugintemplate.halo.run/v1alpha1/**',
+                        '/apis/public.plugintemplate.halo.run/v1alpha1/**'
                 ]
             }
         }
         groupedApiMappings = [
-                '/v3/api-docs/templateApis': 'templateApis.json'
+                '/v3/api-docs/plugintemplateApis': 'plugintemplateApis.json'
         ]
         generator {
             outputDir = file("${projectDir}/ui/src/api/generated")

@@ -15,9 +15,9 @@
 
 ```bash
 npm create halo-plugin-template@latest -- \
-  --plugin-name hello-world \
+  --plugin-name todo \
   --base-package com.example.helloworld \
-  --display-name "Hello World" \
+  --display-name "Todo" \
   --author-name "Your Name"
 ```
 
@@ -31,9 +31,9 @@ npm create halo-plugin-template@latest -- \
 
 ```bash
 npm init @your-scope/halo-plugin-template@latest -- \
-  --plugin-name hello-world \
+  --plugin-name todo \
   --base-package com.example.helloworld \
-  --display-name "Hello World" \
+  --display-name "Todo" \
   --author-name "Your Name"
 ```
 

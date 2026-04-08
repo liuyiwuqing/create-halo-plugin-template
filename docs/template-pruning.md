@@ -31,10 +31,12 @@
 
 ```bash
 node scripts/verify-template.mjs \
-  --plugin-name hello-world \
+  --plugin-name todo \
   --base-package com.example.helloworld \
-  --display-name "Hello World" \
-  --author-name "Your Name"
+  --display-name "Todo" \
+  --author-name "Your Name" \
+  --route-prefix /plugin-todo \
+  --permission-prefix plugin:plugin-todo
 
 ./gradlew build
 cd ui && pnpm test:unit

@@ -5,6 +5,7 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import run.halo.app.core.extension.endpoint.CustomEndpoint;
 import run.halo.app.extension.GroupVersion;
+import run.halo.plugintemplate.setting.PluginTemplateSettingKeys;
 
 /**
  * Public endpoint placeholder.
@@ -12,7 +13,8 @@ import run.halo.app.extension.GroupVersion;
  */
 public class PluginTemplatePublicEndpoint implements CustomEndpoint {
 
-    public static final String PUBLIC_GROUP_VERSION = "public.halo-plugin-template.halo.run/v1alpha1";
+    public static final String PUBLIC_GROUP_VERSION = "public."
+        + PluginTemplateSettingKeys.API_GROUP_SUFFIX + "/v1alpha1";
 
     @Override
     public RouterFunction<ServerResponse> endpoint() {

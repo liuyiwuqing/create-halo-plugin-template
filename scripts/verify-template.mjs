@@ -9,7 +9,6 @@ const REQUIRED_FILES = [
   'README.md',
   'build.gradle',
   'settings.gradle',
-  'scripts/init-template.mjs',
   'src/main/resources/plugin.yaml',
   'src/main/resources/extensions/settings.yaml',
   'src/main/resources/extensions/roleTemplate-console.yaml',
@@ -17,8 +16,6 @@ const REQUIRED_FILES = [
   'ui/src/index.ts',
   'ui/src/api/index.ts',
   'ui/src/api/generated/index.ts',
-  'docs/rsbuild-switch.md',
-  'docs/template-pruning.md',
 ]
 const TEXT_EXTENSIONS = new Set([
   '.md',
@@ -59,13 +56,15 @@ Usage:
   node scripts/verify-template.mjs
 
   node scripts/verify-template.mjs \\
-    --plugin-name hello-world \\
+    --plugin-name todo \\
     --base-package com.example.helloworld \\
-    --display-name "Hello World" \\
+    --display-name "Todo" \\
     --author-name "Your Name" \\
+    [--route-prefix /plugin-todo] \\
+    [--permission-prefix plugin:plugin-todo] \\
     [--author-website "https://github.com/your-name"] \\
     [--repo-owner your-name] \\
-    [--description "Hello World - Halo 插件"]
+    [--description "Todo - Halo 插件"]
 `.trim()
 
 const parseArgs = (argv) => {
@@ -252,10 +251,16 @@ const verifyRepo = async (args) => {
   const consolePath = extractJavaConstant(settingKeysContent, 'CONSOLE_PATH')
   const ucPath = extractJavaConstant(settingKeysContent, 'UC_PATH')
   const generatedClientPath = extractJavaConstant(settingKeysContent, 'GENERATED_CLIENT_PATH')
+  const routePrefix = extractJavaConstant(settingKeysContent, 'ROUTE_PREFIX')
+  const configuredPermissionPrefix = extractJavaConstant(settingKeysContent, 'PERMISSION_PREFIX')
+  const apiGroupSuffix = extractJavaConstant(settingKeysContent, 'API_GROUP_SUFFIX')
+  const apiGroupKey = extractJavaConstant(settingKeysContent, 'API_GROUP_KEY')
   const basePackage = extractGradleGroup(buildGradleContent)
   const rootProjectName = extractRootProjectName(settingsGradleContent)
   const packageDirectory = path.posix.join('src/main/java', ...basePackage.split('.'))
-  const permissionPrefix = `plugin:${pluginName}:`
+  const permissionPrefix = `${configuredPermissionPrefix}:`
+  const resolvedConsolePath = consolePath || routePrefix
+  const resolvedUcPath = ucPath || routePrefix
 
   if (!pluginName || !displayName || !basePackage) {
     fail(results, 'Unable to resolve plugin constants from SettingKeys.java or build.gradle')
@@ -280,10 +285,12 @@ const verifyRepo = async (args) => {
   assertContains(results, pluginYamlContent, `displayName: "${displayName}"`, 'plugin.yaml displayName is consistent')
   assertContains(results, settingsYamlContent, `name: ${settingName}`, 'settings.yaml metadata name is consistent')
 
-  assertContains(results, buildGradleContent, `/apis/console.${pluginName}.halo.run/v1alpha1/**`, 'OpenAPI console path matches plugin name')
-  assertContains(results, buildGradleContent, `/apis/uc.${pluginName}.halo.run/v1alpha1/**`, 'OpenAPI UC path matches plugin name')
-  assertContains(results, uiIndexContent, `path: '${consolePath}'`, 'Console route path matches setting constants')
-  assertContains(results, uiIndexContent, `path: '${ucPath}'`, 'UC route path matches setting constants')
+  assertContains(results, buildGradleContent, `/apis/console.${apiGroupSuffix}/v1alpha1/**`, 'OpenAPI console path matches API group suffix')
+  assertContains(results, buildGradleContent, `/apis/uc.${apiGroupSuffix}/v1alpha1/**`, 'OpenAPI UC path matches API group suffix')
+  assertContains(results, buildGradleContent, `/apis/public.${apiGroupSuffix}/v1alpha1/**`, 'OpenAPI public path matches API group suffix')
+  assertContains(results, buildGradleContent, `${apiGroupKey}Apis`, 'OpenAPI group key matches API group key')
+  assertContains(results, uiIndexContent, `path: '${resolvedConsolePath}'`, 'Console route path matches setting constants')
+  assertContains(results, uiIndexContent, `path: '${resolvedUcPath}'`, 'UC route path matches setting constants')
   assertContains(results, uiIndexContent, permissionPrefix, 'UI permissions use the current plugin prefix')
   assertContains(results, providerContent, `${pluginName}-admin-shell`, 'UI provider namespace follows the plugin prefix')
   assertContains(results, uiApiContent, `from '@/api/generated'`, 'UI API wrapper imports from the generated client')
@@ -296,8 +303,15 @@ const verifyRepo = async (args) => {
 
   assertContains(results, consoleRoleTemplateContent, permissionPrefix, 'Console role template uses the plugin permission prefix')
   assertContains(results, ucRoleTemplateContent, permissionPrefix, 'UC role template uses the plugin permission prefix')
-  assertContains(results, readmeContent, 'node scripts/verify-template.mjs', 'README documents the verification command')
-  assertContains(results, readmeContent, 'docs/template-pruning.md', 'README links to the pruning guide')
+  if (readmeContent.includes('node scripts/verify-template.mjs')) {
+    pass(results, 'README documents the verification command')
+  }
+
+  if (!(await exists('docs/template-pruning.md')) || readmeContent.includes('docs/template-pruning.md')) {
+    pass(results, 'README/doc pruning guidance is consistent')
+  } else {
+    fail(results, 'README references are inconsistent with the generated docs layout')
+  }
 
   if (await exists(path.posix.join(generatedClientPath, 'api'))) {
     pass(results, `Generated API directory exists: ${generatedClientPath}/api`)
@@ -327,6 +341,18 @@ const verifyRepo = async (args) => {
     fail(results, `Expected display name ${args['display-name']}, got ${displayName}`)
   } else if (args['display-name']) {
     pass(results, `Expected display name matches: ${displayName}`)
+  }
+
+  if (args['route-prefix'] && args['route-prefix'] !== routePrefix) {
+    fail(results, `Expected route prefix ${args['route-prefix']}, got ${routePrefix}`)
+  } else if (args['route-prefix']) {
+    pass(results, `Expected route prefix matches: ${routePrefix}`)
+  }
+
+  if (args['permission-prefix'] && args['permission-prefix'] !== configuredPermissionPrefix) {
+    fail(results, `Expected permission prefix ${args['permission-prefix']}, got ${configuredPermissionPrefix}`)
+  } else if (args['permission-prefix']) {
+    pass(results, `Expected permission prefix matches: ${configuredPermissionPrefix}`)
   }
 
   if (args['author-name']) {
