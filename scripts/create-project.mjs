@@ -15,8 +15,6 @@ const SKIP_NAMES = new Set([
   'build',
   'node_modules',
   'workplace',
-  'plugin-halo-plugin-rsbuild',
-  'plugin-halo-plugin-vite',
   'api-docs',
   '.DS_Store',
 ])

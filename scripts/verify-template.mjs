@@ -45,8 +45,6 @@ const SKIP_DIRS = new Set([
   '.gradle',
   'build',
   'node_modules',
-  'plugin-halo-plugin-rsbuild',
-  'plugin-halo-plugin-vite',
   'ui/build',
   'workplace',
 ])
