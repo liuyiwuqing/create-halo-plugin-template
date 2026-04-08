@@ -64,6 +64,30 @@ npm create halo-plugin-template@latest -- \
 npm run publish:check
 ```
 
+如果你要准备一个新版本发布，可以直接执行：
+
+```bash
+npm run release:prepare -- --bump patch
+```
+
+如果你已经在 npm 侧配置好了 Trusted Publishing，并且希望本地完成检查、提交、打 tag、推送一条龙：
+
+```bash
+npm run release:prepare -- --bump patch --push
+```
+
+这条命令会自动：
+
+- 校验当前分支必须是 `main`
+- 校验工作区必须是干净状态
+- 更新根目录 `package.json` 的版本号
+- 执行 `npm run publish:check`
+- 创建 `chore: release vX.Y.Z` 提交
+- 创建 `vX.Y.Z` tag
+- 可选推送 `main` 和 tag
+
+仓库当前使用 `push tag -> publish-npm.yaml` 的方式触发 npm 发布。
+
 先运行初始化脚本，把模板占位符替换成你的插件信息：
 
 ```bash

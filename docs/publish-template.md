@@ -56,18 +56,53 @@ npm run publish:check
 npm login
 ```
 
+5. 在 npm 后台为包 `create-halo-plugin-template` 配置 Trusted Publisher，绑定：
+
+- GitHub repository: `liuyiwuqing/create-halo-plugin-template`
+- Workflow file: `.github/workflows/publish-npm.yaml`
+- Environment: `npm`
+
 ## 发布命令
 
-### 非 scoped 包
+### 一键准备下个版本
+
+```bash
+npm run release:prepare -- --bump patch
+```
+
+这会自动完成版本号更新、发布前检查、提交和打 tag。
+
+### 一键准备并推送发布
+
+```bash
+npm run release:prepare -- --bump patch --push
+```
+
+这会在本地完成检查后直接推送 `main` 和 `vX.Y.Z` tag。
+当前仓库使用 tag push 触发 [publish-npm.yaml](../.github/workflows/publish-npm.yaml)，所以只要 npm Trusted Publishing 已经配置好，推送 tag 后就会自动发布。
+
+### 手工发布
 
 ```bash
 npm publish
 ```
 
-### scoped 公共包
+### scoped 公共包手工发布
 
 ```bash
 npm publish --access public
+```
+
+### 指定版本号准备发布
+
+```bash
+npm run release:prepare -- --version 1.0.0
+```
+
+或者直接推送：
+
+```bash
+npm run release:prepare -- --version 1.0.0 --push
 ```
 
 ## 持续发布建议
@@ -88,7 +123,7 @@ npm pack --dry-run
 
 如果你要做自动发布，优先用 npm Trusted Publishing，而不是长期有效的 npm token。
 
-- 源码仓库打 tag 或发 GitHub Release
+- 源码仓库推送 `v*` tag
 - GitHub Actions 触发 [publish-npm.yaml](../.github/workflows/publish-npm.yaml) 工作流
 - npm 侧配置 Trusted Publisher
 
