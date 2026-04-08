@@ -5,6 +5,8 @@
 1. Halo 插件模板源码仓库
 2. npm 上的 `create-*` 脚手架包
 
+如果你现在就是要做首发，直接看 [first-npm-release-checklist.md](./first-npm-release-checklist.md)。
+
 ## 推荐发布方式
 
 ### 方案一：npm `create-*` 包

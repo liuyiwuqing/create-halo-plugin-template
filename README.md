@@ -55,6 +55,7 @@ npm create halo-plugin-template@latest -- \
 ```
 
 发布说明见 [docs/publish-template.md](./docs/publish-template.md)。
+首发操作清单见 [docs/first-npm-release-checklist.md](./docs/first-npm-release-checklist.md)。
 
 当前 GitHub 仓库名和 unscoped npm 包名统一为 `create-halo-plugin-template`，便于后续维护和分发。
 
