@@ -1,6 +1,6 @@
 {
   "name": "create-halo-plugin-template",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Create and initialize reusable Halo plugin starter projects.",
   "type": "module",
   "license": "GPL-3.0",
