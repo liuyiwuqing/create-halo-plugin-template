@@ -148,10 +148,10 @@ public final class PluginTemplateSeeds {
         return List.of(
             PluginTemplateChecklistItem.builder()
                 .key("init-script")
-                .title("运行初始化脚本")
-                .description("先替换插件名、包名、权限前缀和仓库地址，再开始写业务。")
+                .title("确认初始化结果")
+                .description("通过 npm create 或 create-project 创建项目时，这一步已经自动完成；只有手工复制模板源码时，才需要单独运行初始化脚本。")
                 .audience("all")
-                .status("todo")
+                .status("done")
                 .build(),
             PluginTemplateChecklistItem.builder()
                 .key("settings")

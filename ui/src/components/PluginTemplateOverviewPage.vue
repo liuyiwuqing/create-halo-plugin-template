@@ -3,7 +3,7 @@ import { stores, utils } from '@halo-dev/ui-shared'
 import { ElAlert, ElButton, ElLink, ElSkeleton } from 'element-plus'
 import { storeToRefs } from 'pinia'
 import { computed, onMounted } from 'vue'
-import { buildAudienceLabel, checklistColumns, featureColumns } from '@/lib/template'
+import { buildAudienceLabel, checklistColumns, featureColumns, formatChecklistStatus } from '@/lib/template'
 import { useTemplateOverview } from '@/composables/useTemplateOverview'
 import PluginTemplateCommonTable from './PluginTemplateCommonTable.vue'
 import PluginUiProvider from './ui/PluginUiProvider.vue'
@@ -142,7 +142,7 @@ onMounted(load)
                       {{ item.description }}
                     </p>
                   </div>
-                  <UiStatusPill :label="item.status" :tone="item.status" />
+                  <UiStatusPill :label="formatChecklistStatus(item.status)" :tone="item.status" />
                 </article>
               </div>
             </UiSectionCard>
@@ -226,7 +226,7 @@ onMounted(load)
               empty-description="暂无初始化清单"
             >
               <template #cell-status="{ value }">
-                <UiStatusPill :label="String(value)" :tone="String(value)" />
+                <UiStatusPill :label="formatChecklistStatus(String(value))" :tone="String(value)" />
               </template>
             </PluginTemplateCommonTable>
           </UiSectionCard>
@@ -236,14 +236,13 @@ onMounted(load)
             description="模板的真实价值在于后续多个插件项目都沿用同一套工程边界。"
           >
             <ul style="margin: 0; padding-left: 18px; color: var(--halo-plugin-template-text-secondary); line-height: 1.8">
-              <li>先运行初始化脚本，再修改 `plugin.yaml`、`settings.yaml`、角色模板和 Java 包名。</li>
-              <li>初始化后执行 `node scripts/verify-template.mjs`，确认插件名、包名、权限前缀和文档入口已经全部收敛。</li>
+              <li>如果你是通过 `npm create halo-plugin-template` 或 `create-project.mjs` 创建项目，初始化和一致性校验已经自动完成。</li>
+              <li>只有在手工复制模板源码仓库时，才需要额外运行初始化脚本和校验脚本。</li>
               <li>新接口补好 Springdoc 后，执行 `./gradlew generateApiClient`，再在 `ui/src/api/index.ts` 暴露新增能力。</li>
               <li>按插件实际范围裁剪 UC、附件扩展和工作台部件，避免模板示例残留到正式项目。</li>
               <li>
                 如需切换到 Rsbuild，可参考
-                <ElLink :href="rsbuildGuideLink" target="_blank">Halo 官方 UI 构建说明</ElLink>
-                和仓库内的 `docs/rsbuild-switch.md`。
+                <ElLink :href="rsbuildGuideLink" target="_blank">Halo 官方 UI 构建说明</ElLink>。
               </li>
             </ul>
           </UiSectionCard>

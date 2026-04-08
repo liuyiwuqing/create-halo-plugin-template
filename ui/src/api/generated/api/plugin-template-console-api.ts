@@ -35,7 +35,7 @@ export const PluginTemplateConsoleApiAxiosParamCreator = function (configuration
          * @throws {RequiredError}
          */
         pluginTemplateOverviewForConsole: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/apis/console.halo-plugin-template.halo.run/v1alpha1/template-overview/summary`;
+            const localVarPath = `/apis/console.plugintemplate.halo.run/v1alpha1/template-overview/summary`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;

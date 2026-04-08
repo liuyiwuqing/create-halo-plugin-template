@@ -125,6 +125,28 @@ const walkFiles = async (directory) => {
   return files
 }
 
+const collectFiles = async (directory, matcher, result = []) => {
+  if (!(await exists(directory))) {
+    return result
+  }
+
+  const entries = await fs.readdir(path.join(ROOT, directory), { withFileTypes: true })
+
+  for (const entry of entries) {
+    const relativePath = path.posix.join(directory, entry.name)
+    if (entry.isDirectory()) {
+      await collectFiles(relativePath, matcher, result)
+      continue
+    }
+
+    if (matcher(relativePath)) {
+      result.push(relativePath)
+    }
+  }
+
+  return result
+}
+
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 const readText = async (relativePath) =>
@@ -261,6 +283,10 @@ const verifyRepo = async (args) => {
   const permissionPrefix = `${configuredPermissionPrefix}:`
   const resolvedConsolePath = consolePath || routePrefix
   const resolvedUcPath = ucPath || routePrefix
+  const generatedApiFiles = await collectFiles(
+    path.posix.join(generatedClientPath, 'api'),
+    (filePath) => filePath.endsWith('.ts'),
+  )
 
   if (!pluginName || !displayName || !basePackage) {
     fail(results, 'Unable to resolve plugin constants from SettingKeys.java or build.gradle')
@@ -323,6 +349,26 @@ const verifyRepo = async (args) => {
     pass(results, `Generated model directory exists: ${generatedClientPath}/models`)
   } else {
     fail(results, `Generated model directory is missing: ${generatedClientPath}/models`)
+  }
+
+  if (generatedApiFiles.length > 0) {
+    const generatedApiContent = (
+      await Promise.all(generatedApiFiles.map((relativePath) => readText(relativePath)))
+    ).join('\n')
+    assertContains(
+      results,
+      generatedApiContent,
+      `/apis/console.${apiGroupSuffix}/v1alpha1/`,
+      'Generated client console path matches API group suffix',
+    )
+    assertContains(
+      results,
+      generatedApiContent,
+      `/apis/uc.${apiGroupSuffix}/v1alpha1/`,
+      'Generated client UC path matches API group suffix',
+    )
+  } else {
+    fail(results, `Generated API files are missing under ${generatedClientPath}/api`)
   }
 
   if (args['plugin-name'] && args['plugin-name'] !== pluginName) {
