@@ -56,8 +56,7 @@ npm create halo-plugin-template@latest -- \
 
 发布说明见 [docs/publish-template.md](./docs/publish-template.md)。
 
-当前 unscoped npm 包名建议继续使用 `create-halo-plugin-template`。
-如果后续要改成和 GitHub 仓库更接近的名字，优先考虑 scoped 包，而不是直接改成 `create-halo-plugin`。
+当前 GitHub 仓库名和 unscoped npm 包名统一为 `create-halo-plugin-template`，便于后续维护和分发。
 
 如果你要在发布前做一次完整自检，直接执行：
 

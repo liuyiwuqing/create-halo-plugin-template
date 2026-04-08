@@ -8,13 +8,13 @@
     "name": "柳意梧情",
     "url": "https://github.com/liuyiwuqing"
   },
-  "homepage": "https://github.com/liuyiwuqing/create-halo-plugin#readme",
+  "homepage": "https://github.com/liuyiwuqing/create-halo-plugin-template#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/liuyiwuqing/create-halo-plugin.git"
+    "url": "git+https://github.com/liuyiwuqing/create-halo-plugin-template.git"
   },
   "bugs": {
-    "url": "https://github.com/liuyiwuqing/create-halo-plugin/issues"
+    "url": "https://github.com/liuyiwuqing/create-halo-plugin-template/issues"
   },
   "bin": {
     "create-halo-plugin-template": "bin/create-halo-plugin-template.js"
