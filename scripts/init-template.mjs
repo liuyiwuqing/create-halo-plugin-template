@@ -9,6 +9,7 @@ import {
   normalizePluginName,
   normalizeRoutePrefix,
   reverseBasePackage,
+  slugify,
   toClassPrefix,
   toKebabToken,
 } from './lib/template-meta.mjs'
