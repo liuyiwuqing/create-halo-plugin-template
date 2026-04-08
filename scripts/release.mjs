@@ -160,6 +160,43 @@ const bumpVersion = (version, bumpType) => {
   }
 }
 
+const compareVersions = (left, right) => {
+  const leftParsed = parseVersion(left)
+  const rightParsed = parseVersion(right)
+
+  if (leftParsed.major !== rightParsed.major) {
+    return leftParsed.major - rightParsed.major
+  }
+
+  if (leftParsed.minor !== rightParsed.minor) {
+    return leftParsed.minor - rightParsed.minor
+  }
+
+  return leftParsed.patch - rightParsed.patch
+}
+
+const fetchPublishedVersions = async (packageName) => {
+  try {
+    const output = await captureCommand('npm', ['view', packageName, 'versions', '--json'])
+    if (!output) {
+      return []
+    }
+
+    const parsed = JSON.parse(output)
+    if (Array.isArray(parsed)) {
+      return parsed
+    }
+
+    return [String(parsed)]
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    if (message.includes('E404') || message.includes('404 Not Found')) {
+      return []
+    }
+    throw error
+  }
+}
+
 const main = async () => {
   let originalPackageJson = null
 
@@ -188,6 +225,18 @@ const main = async () => {
     const nextVersion = options.version ?? bumpVersion(packageJson.version, options.bump)
     parseVersion(nextVersion)
 
+    const publishedVersions = await fetchPublishedVersions(packageJson.name)
+    const latestPublishedVersion = publishedVersions
+      .filter(Boolean)
+      .sort(compareVersions)
+      .at(-1)
+
+    if (latestPublishedVersion && compareVersions(nextVersion, latestPublishedVersion) <= 0) {
+      throw new Error(
+        `Version ${nextVersion} must be greater than the latest published npm version ${latestPublishedVersion}`,
+      )
+    }
+
     const existingLocalTag = await captureCommand('git', ['tag', '--list', `v${nextVersion}`])
     if (existingLocalTag) {
       throw new Error(`Tag v${nextVersion} already exists locally`)
@@ -202,10 +251,11 @@ const main = async () => {
 
     await runCommand('git', ['add', 'package.json'])
     await runCommand('git', ['commit', '-m', `chore: release v${nextVersion}`])
-    await runCommand('git', ['tag', `v${nextVersion}`])
+    await runCommand('git', ['tag', '-a', `v${nextVersion}`, '-m', `v${nextVersion}`])
 
     if (options.push) {
-      await runCommand('git', ['push', 'origin', 'main', '--follow-tags'])
+      await runCommand('git', ['push', 'origin', 'main'])
+      await runCommand('git', ['push', 'origin', `v${nextVersion}`])
     }
 
     console.log(`Prepared release v${nextVersion}`)
