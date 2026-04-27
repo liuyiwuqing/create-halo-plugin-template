@@ -8,43 +8,47 @@ import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import './assets/index.css'
 import './assets/element.scss'
+import ConsoleDashboardView from "@/views/console/ConsoleDashboardView.vue";
+import UcDashboardView from "@/views/uc/UcDashboardView.vue";
 
 export default definePlugin({
   components: {},
   routes: [
     {
-      parentName: 'Root',
+      parentName: "Root",
       route: {
-        path: '/halo-plugin-template',
-        name: 'PluginTemplateConsoleRoot',
-        component: () =>
-          import(/* webpackChunkName: "PluginTemplateConsoleDashboard" */ './views/console/ConsoleDashboardView.vue'),
+        path: "/halo-plugin-template",
+        name: "PluginTemplateConsoleRoot",
+        component: ConsoleDashboardView,
         meta: {
-          title: '模板工作台',
+          title: "模板工作台",
           searchable: true,
           permissions: ['plugin:halo-plugin-template:view'],
           menu: {
-            name: '模板工作台',
-            group: '插件模板',
+            name: "模板工作台",
+            group: "插件模板",
             icon: markRaw(IconPlug),
-            priority: 0,
+            priority: 40,
           },
-        },
+        }
       },
     },
   ],
   ucRoutes: [
     {
-      parentName: 'Root',
+      parentName: "Root",
       route: {
-        path: '/halo-plugin-template',
-        name: 'PluginTemplateUcRoot',
-        component: () =>
-          import(/* webpackChunkName: "PluginTemplateUcDashboard" */ './views/uc/UcDashboardView.vue'),
+        path: "/halo-plugin-template",
+        name: "PluginTemplateUcRoot",
+        component: UcDashboardView,
         meta: {
-          title: '模板中心',
-          searchable: true,
           permissions: ['plugin:halo-plugin-template:uc'],
+          menu: {
+            name: "模板中心",
+            group: "插件模板",
+            icon: markRaw(IconPlug),
+            priority: 40
+          },
         },
       },
     },

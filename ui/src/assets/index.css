@@ -33,7 +33,6 @@
 }
 
 .halo-plugin-template-admin-page {
-  width: min(1240px, 100%);
   margin: 0 auto;
   padding: 24px 24px 56px;
   display: flex;
