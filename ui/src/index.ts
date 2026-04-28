@@ -17,7 +17,7 @@ export default definePlugin({
     {
       parentName: "Root",
       route: {
-        path: "/halo-plugin-template",
+        path: '/halo-plugin-template',
         name: "PluginTemplateConsoleRoot",
         component: ConsoleDashboardView,
         meta: {
@@ -38,7 +38,7 @@ export default definePlugin({
     {
       parentName: "Root",
       route: {
-        path: "/halo-plugin-template",
+        path: '/halo-plugin-template',
         name: "PluginTemplateUcRoot",
         component: UcDashboardView,
         meta: {
