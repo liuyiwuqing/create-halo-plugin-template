@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id "io.freefair.lombok" version "9.2.0"
     id "run.halo.plugin.devtools" version "0.6.2"
-    id "com.github.node-gradle.node" version "7.1.0"
 }
 
 group 'run.halo.plugintemplate'
@@ -59,16 +58,10 @@ tasks.named('generatePluginComponentsIdx') {
     notCompatibleWithConfigurationCache('This task invokes "Task.project" at execution time, which is not supported with configuration cache.')
 }
 
-node {
-    download = true
-    version = '22.22.0'
-}
-
 if (file('scripts/verify-template.mjs').exists()) {
     tasks.register('verifyTemplateConsistency', Exec) {
         group = 'verification'
         description = 'Verify the starter repository or initialized plugin stays internally consistent'
-        dependsOn 'nodeSetup'
         commandLine 'node', 'scripts/verify-template.mjs'
     }
 
