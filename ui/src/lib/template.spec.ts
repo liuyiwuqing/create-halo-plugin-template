@@ -18,10 +18,10 @@ describe('template helpers', () => {
   it('maps semantic tones to badge variants', () => {
     expect(toBadgeVariant('primary')).toBe('default')
     expect(toBadgeVariant('now')).toBe('default')
-    expect(toBadgeVariant('success')).toBe('success')
-    expect(toBadgeVariant('done')).toBe('success')
-    expect(toBadgeVariant('recommended')).toBe('warning')
-    expect(toBadgeVariant('todo')).toBe('warning')
+    expect(toBadgeVariant('success')).toBe('default')
+    expect(toBadgeVariant('done')).toBe('default')
+    expect(toBadgeVariant('recommended')).toBe('outline')
+    expect(toBadgeVariant('todo')).toBe('outline')
     expect(toBadgeVariant('unknown')).toBe('secondary')
   })
 

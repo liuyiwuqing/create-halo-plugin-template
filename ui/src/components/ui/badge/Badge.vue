@@ -8,7 +8,7 @@ defineOptions({
 
 const props = withDefaults(
   defineProps<{
-    variant?: 'default' | 'secondary' | 'outline' | 'destructive' | 'success' | 'warning'
+    variant?: 'default' | 'secondary' | 'destructive' | 'outline'
   }>(),
   {
     variant: 'default',
@@ -17,15 +17,15 @@ const props = withDefaults(
 
 const classes = computed(() =>
   cn(
-    'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors',
+    'inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
     {
-      'border-transparent bg-primary text-primary-foreground': props.variant === 'default',
-      'border-transparent bg-secondary text-secondary-foreground': props.variant === 'secondary',
-      'text-foreground': props.variant === 'outline',
-      'border-transparent bg-destructive text-destructive-foreground':
+      'border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80':
+        props.variant === 'default',
+      'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80':
+        props.variant === 'secondary',
+      'border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80':
         props.variant === 'destructive',
-      'border-transparent bg-emerald-500 text-white': props.variant === 'success',
-      'border-transparent bg-amber-500 text-white': props.variant === 'warning',
+      'text-foreground': props.variant === 'outline',
     },
   ),
 )

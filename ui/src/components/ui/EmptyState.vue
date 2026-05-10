@@ -22,13 +22,13 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="flex min-h-[220px] flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card/50 p-8 text-center">
-    <div class="grid h-12 w-12 place-items-center rounded-full bg-muted text-muted-foreground">
-      <Inbox class="h-5 w-5" />
+  <div class="flex flex-col items-center justify-center py-16 text-center">
+    <div class="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+      <Inbox class="h-8 w-8 text-muted-foreground" />
     </div>
-    <p class="mt-4 text-sm font-semibold">{{ title || t('common.noData') }}</p>
-    <p v-if="description" class="mt-2 max-w-md text-xs text-muted-foreground">{{ description }}</p>
-    <Button v-if="actionText" class="mt-4" variant="outline" size="sm" @click="emit('action')">
+    <h3 class="mt-4 text-lg font-semibold">{{ title || t('common.noData') }}</h3>
+    <p v-if="description" class="mt-2 max-w-sm text-sm text-muted-foreground">{{ description }}</p>
+    <Button v-if="actionText" class="mt-6" @click="emit('action')">
       {{ actionText }}
     </Button>
   </div>

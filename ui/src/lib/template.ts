@@ -14,21 +14,20 @@ export const checklistColumns: ResponsiveColumn[] = [
   { key: 'status', label: '状态', minWidth: 120, align: 'right' },
 ]
 
-export type BadgeTone = 'default' | 'secondary' | 'outline' | 'destructive' | 'success' | 'warning'
+export type BadgeTone = 'default' | 'secondary' | 'outline' | 'destructive'
 
 export const toBadgeVariant = (tone?: string): BadgeTone => {
   switch (tone) {
     case 'primary':
     case 'now':
-      return 'default'
     case 'success':
     case 'done':
     case 'auto':
-      return 'success'
+      return 'default'
     case 'warning':
     case 'recommended':
     case 'todo':
-      return 'warning'
+      return 'outline'
     case 'danger':
       return 'destructive'
     default:

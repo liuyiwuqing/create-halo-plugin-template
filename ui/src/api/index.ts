@@ -17,6 +17,7 @@ import type {
   PluginTemplateRecordFilters,
   PluginTemplateRecordForm,
   PluginTemplateRecordList,
+  TemplateRecordSort,
 } from '@/types'
 
 // Keep this file as the only API import surface for UI code.
@@ -46,25 +47,12 @@ export const templateConsoleApi = {
     page: number
     size: number
     filters: PluginTemplateRecordFilters
+    sort?: TemplateRecordSort
   }): Promise<PluginTemplateRecordList> => {
     const response = await consoleApi.pluginTemplateRecordListForConsole(
       buildRecordListRequest(params),
     )
     return normalizeRecordList(response.data)
-  },
-  getRecordById: async (id: string): Promise<PluginTemplateRecord> => {
-    const response = await consoleApi.pluginTemplateRecordListForConsole({
-      page: 1,
-      size: 200,
-      sort: ['priority,desc', 'createTime,desc'],
-      keyword: id,
-    })
-    const list = normalizeRecordList(response.data)
-    const record = list.items.find((item) => item.id === id)
-    if (!record) {
-      throw new Error(`Record ${id} not found`)
-    }
-    return record
   },
   createRecord: async (form: PluginTemplateRecordForm): Promise<PluginTemplateRecord> => {
     const response = await consoleApi.pluginTemplateRecordCreateForConsole({

@@ -1,3 +1,4 @@
+import type { Component } from 'vue'
 import type {
   PluginTemplateChecklistItem as GeneratedPluginTemplateChecklistItem,
   PluginTemplateFeatureItem as GeneratedPluginTemplateFeatureItem,
@@ -14,7 +15,7 @@ export interface ShellNavItem {
   key: string
   label: string
   to: string
-  icon?: string
+  icon?: Component
 }
 
 export interface BreadcrumbItem {
@@ -76,6 +77,7 @@ export interface PluginTemplateOverview extends GeneratedPluginTemplateOverview 
 }
 
 export type TemplateRecordStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
+export type TemplateRecordSort = 'default' | 'priority' | 'updated'
 
 export interface PluginTemplateRecord extends GeneratedPluginTemplateRecord {
   id: string

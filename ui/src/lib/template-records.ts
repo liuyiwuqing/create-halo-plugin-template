@@ -8,6 +8,7 @@ import type {
   PluginTemplateRecordFilters,
   PluginTemplateRecordForm,
   PluginTemplateRecordList,
+  TemplateRecordSort,
   TemplateRecordStatus,
 } from '@/types'
 
@@ -69,10 +70,11 @@ export const buildRecordListRequest = (params: {
   page: number
   size: number
   filters: PluginTemplateRecordFilters
+  sort?: TemplateRecordSort
 }) => ({
   page: params.page,
   size: params.size,
-  sort: ['priority,desc', 'createTime,desc'],
+  sort: resolveRecordSort(params.sort),
   keyword: params.filters.keyword || undefined,
   status: params.filters.status || undefined,
   enabled: params.filters.enabled === '' ? undefined : params.filters.enabled,
@@ -83,7 +85,7 @@ export const normalizeRecord = (record: Partial<RawPluginTemplateRecord>): Plugi
   kind: record.kind || 'PluginTemplateRecord',
   metadata: record.metadata || { name: '' },
   id: record.id || '',
-  title: record.title || '未命名记录',
+  title: record.title || t('common.noData'),
   status: resolveRecordStatus(record.status),
   enabled: record.enabled ?? true,
   priority: record.priority ?? 0,
@@ -127,4 +129,14 @@ const resolveRecordStatus = (status?: string): TemplateRecordStatus => {
     return status
   }
   return 'DRAFT'
+}
+
+const resolveRecordSort = (sort: TemplateRecordSort = 'default') => {
+  if (sort === 'updated') {
+    return ['updateTime,desc', 'priority,desc']
+  }
+  if (sort === 'priority') {
+    return ['priority,desc', 'updateTime,desc']
+  }
+  return ['priority,desc', 'createTime,desc']
 }

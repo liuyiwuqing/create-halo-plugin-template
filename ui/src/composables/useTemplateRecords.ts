@@ -6,6 +6,7 @@ import type {
   PluginTemplateRecord,
   PluginTemplateRecordFilters,
   PluginTemplateRecordForm,
+  TemplateRecordSort,
 } from '@/types'
 
 export const useTemplateRecords = () => {
@@ -18,6 +19,7 @@ export const useTemplateRecords = () => {
   const page = ref(1)
   const size = ref(10)
   const total = ref(0)
+  const sort = ref<TemplateRecordSort>('default')
 
   const load = async () => {
     loading.value = true
@@ -27,6 +29,7 @@ export const useTemplateRecords = () => {
         page: page.value,
         size: size.value,
         filters,
+        sort: sort.value,
       })
       records.value = result.items
       page.value = result.page || page.value
@@ -86,6 +89,7 @@ export const useTemplateRecords = () => {
     page,
     size,
     total,
+    sort,
     hasRecords: computed(() => records.value.length > 0),
     load,
     search,

@@ -10,8 +10,6 @@ import ConsoleDashboardView from '@/views/console/ConsoleDashboardView.vue'
 import DashboardPage from '@/views/workspace/pages/DashboardPage.vue'
 import LoginDemoPage from '@/views/workspace/pages/LoginDemoPage.vue'
 import NotFoundPage from '@/views/workspace/pages/NotFoundPage.vue'
-import RecordDetailPage from '@/views/workspace/pages/RecordDetailPage.vue'
-import RecordFormPage from '@/views/workspace/pages/RecordFormPage.vue'
 import RecordListPage from '@/views/workspace/pages/RecordListPage.vue'
 import UcDashboardView from '@/views/uc/UcDashboardView.vue'
 
@@ -46,38 +44,6 @@ export default definePlugin({
             meta: {
               title: t('records.title'),
               breadcrumbKey: 'nav.list',
-              permissions: ['plugin:halo-plugin-template:view'],
-            },
-          },
-          {
-            path: 'create',
-            name: 'PluginTemplateConsoleCreate',
-            component: RecordFormPage,
-            props: { mode: 'create' },
-            meta: {
-              title: t('formPage.createTitle'),
-              breadcrumbKey: 'nav.create',
-              permissions: ['plugin:halo-plugin-template:view'],
-            },
-          },
-          {
-            path: ':id/edit',
-            name: 'PluginTemplateConsoleEdit',
-            component: RecordFormPage,
-            props: { mode: 'edit' },
-            meta: {
-              title: t('formPage.editTitle'),
-              breadcrumbKey: 'nav.edit',
-              permissions: ['plugin:halo-plugin-template:view'],
-            },
-          },
-          {
-            path: ':id',
-            name: 'PluginTemplateConsoleDetail',
-            component: RecordDetailPage,
-            meta: {
-              title: t('detailPage.title'),
-              breadcrumbKey: 'nav.detail',
               permissions: ['plugin:halo-plugin-template:view'],
             },
           },

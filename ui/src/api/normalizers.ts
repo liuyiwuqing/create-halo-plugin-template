@@ -4,6 +4,7 @@ import type {
   PluginTemplateOverview as RawPluginTemplateOverview,
   PluginTemplateStatItem as RawPluginTemplateStatItem,
 } from '@/api/generated'
+import { t } from '@/i18n'
 import type { PluginTemplateOverview } from '@/types'
 
 export type RawTemplateOverview = RawPluginTemplateOverview & {
@@ -18,7 +19,7 @@ export type RawTemplateOverview = RawPluginTemplateOverview & {
 export const normalizeStats = (stats?: RawPluginTemplateStatItem[]) =>
   (stats ?? []).map((item, index) => ({
     key: item.key || `stat-${index}`,
-    label: item.label || '未命名指标',
+    label: item.label || t('common.noData'),
     value: item.value || '—',
     helper: item.helper || '',
     tone: item.tone || 'info',
@@ -27,7 +28,7 @@ export const normalizeStats = (stats?: RawPluginTemplateStatItem[]) =>
 export const normalizeFeatures = (features?: RawPluginTemplateFeatureItem[]) =>
   (features ?? []).map((item, index) => ({
     key: item.key || `feature-${index}`,
-    title: item.title || '未命名能力',
+    title: item.title || t('common.noData'),
     area: item.area || 'General',
     description: item.description || '',
     enabled: Boolean(item.enabled),
@@ -36,7 +37,7 @@ export const normalizeFeatures = (features?: RawPluginTemplateFeatureItem[]) =>
 export const normalizeChecklist = (checklist?: RawPluginTemplateChecklistItem[]) =>
   (checklist ?? []).map((item, index) => ({
     key: item.key || `checklist-${index}`,
-    title: item.title || '未命名检查项',
+    title: item.title || t('common.noData'),
     description: item.description || '',
     audience: item.audience || 'all',
     status: item.status || 'todo',

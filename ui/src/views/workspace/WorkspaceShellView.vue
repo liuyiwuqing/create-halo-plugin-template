@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { LayoutDashboard, List, LogIn } from 'lucide-vue-next'
 import { computed } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
 import { t } from '@/i18n'
@@ -31,14 +32,10 @@ const basePath = computed(() => {
 
 const navItems = computed<ShellNavItem[]>(() => {
   const items: ShellNavItem[] = [
-    { key: 'dashboard', label: t('nav.dashboard'), to: `${basePath.value}/dashboard` },
-    { key: 'loginDemo', label: t('nav.loginDemo'), to: `${basePath.value}/login-demo` },
+    { key: 'dashboard', label: t('nav.dashboard'), to: `${basePath.value}/dashboard`, icon: LayoutDashboard },
+    { key: 'list', label: t('nav.list'), to: `${basePath.value}/list`, icon: List },
+    { key: 'loginDemo', label: t('nav.loginDemo'), to: `${basePath.value}/login-demo`, icon: LogIn },
   ]
-
-  if (props.audience === 'console') {
-    items.splice(1, 0, { key: 'list', label: t('nav.list'), to: `${basePath.value}/list` })
-    items.splice(2, 0, { key: 'create', label: t('nav.create'), to: `${basePath.value}/create` })
-  }
 
   return items
 })
