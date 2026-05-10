@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ElButton } from 'element-plus'
+import { t } from '@/i18n'
+import { Button } from '@/components/ui/button'
 import logoUrl from '@/assets/logo.svg'
 
 const props = withDefaults(
@@ -18,14 +19,14 @@ const emit = defineEmits<{
 const assets = [
   {
     id: 'logo',
-    title: '模板 Logo',
-    description: '用作后台菜单图标、空状态或品牌占位。',
+    titleKey: 'attachment.logoTitle',
+    descriptionKey: 'attachment.logoDescription',
     value: logoUrl,
   },
   {
     id: 'docs',
-    title: '开发文档',
-    description: '示例外链资源，也可以替换成素材库或 CDN 地址。',
+    titleKey: 'attachment.docsTitle',
+    descriptionKey: 'attachment.docsDescription',
     value: 'https://docs.halo.run/developer-guide/plugin/introduction',
   },
 ]
@@ -38,32 +39,31 @@ const isSelected = (value: string) => props.selected.some((item) => item === val
 </script>
 
 <template>
-  <div class="halo-plugin-template-admin-attachment-list">
-    <article
+  <div class="grid gap-3 p-4">
+    <div class="mb-1">
+      <p class="text-sm font-semibold">{{ t('attachment.title') }}</p>
+      <p class="text-xs text-muted-foreground">{{ t('attachment.description') }}</p>
+    </div>
+    <div
       v-for="asset in assets"
       :key="asset.id"
-      class="halo-plugin-template-admin-attachment-item"
+      class="flex items-center gap-4 rounded-lg border border-border/70 bg-card/80 p-4"
     >
-      <div class="halo-plugin-template-admin-attachment-preview">
-        <img v-if="asset.id === 'logo'" :src="asset.value" alt="Template asset" />
-        <span v-else>DOC</span>
+      <div class="grid h-12 w-16 shrink-0 place-items-center rounded-md bg-muted">
+        <img v-if="asset.id === 'logo'" :src="asset.value" alt="Template asset" class="h-8 w-8" />
+        <span v-else class="text-xs font-bold text-muted-foreground">DOC</span>
       </div>
-      <div>
-        <h3 class="halo-plugin-template-admin-card-title" style="font-size: 15px">
-          {{ asset.title }}
-        </h3>
-        <p class="halo-plugin-template-admin-card-description">
-          {{ asset.description }}
-        </p>
+      <div class="min-w-0 flex-1">
+        <p class="font-medium">{{ t(asset.titleKey) }}</p>
+        <p class="text-sm text-muted-foreground">{{ t(asset.descriptionKey) }}</p>
       </div>
-      <div>
-        <ElButton
-          :type="isSelected(asset.value) ? 'success' : 'primary'"
-          @click="selectAsset(asset.value)"
-        >
-          {{ isSelected(asset.value) ? '已选择' : '选择资源' }}
-        </ElButton>
-      </div>
-    </article>
+      <Button
+        :variant="isSelected(asset.value) ? 'secondary' : 'outline'"
+        size="sm"
+        @click="selectAsset(asset.value)"
+      >
+        {{ isSelected(asset.value) ? t('attachment.selected') : t('attachment.select') }}
+      </Button>
+    </div>
   </div>
 </template>

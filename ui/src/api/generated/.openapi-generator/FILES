@@ -13,10 +13,13 @@ models/add-operation.ts
 models/copy-operation.ts
 models/index.ts
 models/json-patch-inner.ts
+models/metadata.ts
 models/move-operation.ts
 models/plugin-template-checklist-item.ts
 models/plugin-template-feature-item.ts
 models/plugin-template-overview.ts
+models/plugin-template-record-list.ts
+models/plugin-template-record.ts
 models/plugin-template-stat-item.ts
 models/remove-operation.ts
 models/replace-operation.ts

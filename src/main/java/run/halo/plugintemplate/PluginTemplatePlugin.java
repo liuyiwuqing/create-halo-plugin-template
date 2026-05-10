@@ -29,8 +29,20 @@ public class PluginTemplatePlugin extends BasePlugin {
                 .indexFunc(PluginTemplateRecord::getId));
             indexSpecs.add(IndexSpecs.<PluginTemplateRecord, String>single("title", String.class)
                 .indexFunc(PluginTemplateRecord::getTitle));
+            indexSpecs.add(IndexSpecs.<PluginTemplateRecord, String>single("description", String.class)
+                .indexFunc(PluginTemplateRecord::getDescription));
             indexSpecs.add(IndexSpecs.<PluginTemplateRecord, String>single("status", String.class)
                 .indexFunc(PluginTemplateRecord::getStatus));
+            indexSpecs.add(IndexSpecs.<PluginTemplateRecord, Boolean>single("enabled", Boolean.class)
+                .indexFunc(PluginTemplateRecord::getEnabled));
+            indexSpecs.add(IndexSpecs.<PluginTemplateRecord, Integer>single("priority", Integer.class)
+                .indexFunc(PluginTemplateRecord::getPriority));
+            indexSpecs.add(IndexSpecs.<PluginTemplateRecord, String>single("publishTime", String.class)
+                .indexFunc(PluginTemplateRecord::getPublishTime));
+            indexSpecs.add(IndexSpecs.<PluginTemplateRecord, String>single("createTime", String.class)
+                .indexFunc(PluginTemplateRecord::getCreateTime));
+            indexSpecs.add(IndexSpecs.<PluginTemplateRecord, String>single("updateTime", String.class)
+                .indexFunc(PluginTemplateRecord::getUpdateTime));
         });
         log.info("Halo plugin template started.");
     }

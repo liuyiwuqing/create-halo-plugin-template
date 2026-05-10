@@ -36,6 +36,15 @@ public class PluginTemplateRecord extends AbstractExtension {
     @Schema(description = "状态", requiredMode = REQUIRED)
     private String status;
 
+    @Schema(description = "是否启用")
+    private Boolean enabled;
+
+    @Schema(description = "优先级")
+    private Integer priority;
+
+    @Schema(description = "发布时间")
+    private String publishTime;
+
     @Schema(description = "创建时间")
     private String createTime;
 

@@ -7,6 +7,7 @@
 - `src/main/resources/plugin.yaml`、`settings.yaml`、角色模板：这是 Halo 插件最稳定的元数据骨架。
 - `ui/src/index.ts`：继续作为唯一 UI 注册出口，避免路由、扩展点和权限定义分散。
 - `ui/src/api/index.ts`：所有前端请求统一经过这一层，不要在页面里直连生成客户端或裸 URL。
+- `PluginTemplateRecord` 这一组 CRUD 示例：它展示了后台管理页最常用的真实 Extension 增删改查链路，适合复制成业务模块。
 - `scripts/init-template.mjs` 和 `scripts/verify-template.mjs`：一个负责初始化，一个负责验收，后续孵化多个插件时都能复用。
 
 ## 按需删除
@@ -17,6 +18,8 @@
   删除 `PluginTemplateAttachmentTab.vue`、`attachment:selector:create` 扩展点和 `enableAttachmentProvider` 设置。
 - 不需要工作台小部件或快速操作时：
   删除 `PluginTemplateDashboardWidget.vue`、`console:dashboard:*` 扩展点，以及对应权限项。
+- 不需要后台 CRUD 示例页时：
+  删除 `PluginTemplateRecord`、`PluginTemplateRecordQuery`、`PluginTemplateRecordService`、`PluginTemplateRecordRoutes`、Console 菜单项、记录管理页面和 `template-records` 角色模板资源。
 - 不需要公共 API 时：
   保留 `PluginTemplatePublicEndpoint.java` 作为占位即可，真正需要公开接口时再加 `@Component` 和路由。
 
@@ -26,6 +29,7 @@
 2. 执行 `./gradlew generateApiClient` 更新 `ui/src/api/generated/`。
 3. 只在 `ui/src/api/index.ts` 暴露业务可用的 API 包装。
 4. 页面和组件只依赖本地包装层，不直接引用生成客户端。
+5. 后台管理页保持工具型布局：标题栏、筛选栏、表格、分页和弹窗表单分层清晰，不把业务管理页做成营销式 Hero。
 
 ## 初始化后的最小验收
 

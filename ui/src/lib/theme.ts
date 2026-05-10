@@ -1,31 +1,28 @@
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed } from 'vue'
+import { useThemeStore } from '@/stores/theme'
+import type { ThemeMode } from '@/types'
 
-export const useDocumentTheme = () => {
-  const isDark = ref(false)
-  let observer: MutationObserver | undefined
+export const THEME_LABEL_KEY: Record<ThemeMode, string> = {
+  light: 'theme.light',
+  dark: 'theme.dark',
+  'business-blue': 'theme.businessBlue',
+}
 
-  const sync = () => {
-    if (typeof document === 'undefined') {
-      isDark.value = false
-      return
-    }
-    isDark.value = document.documentElement.classList.contains('dark')
+export const isDarkTheme = (mode: ThemeMode) => mode !== 'light'
+
+export const useTheme = () => {
+  const themeStore = useThemeStore()
+
+  const mode = computed(() => themeStore.mode)
+  const isDark = computed(() => isDarkTheme(themeStore.mode))
+
+  const setTheme = (value: ThemeMode) => {
+    themeStore.setTheme(value)
   }
 
-  onMounted(() => {
-    sync()
-    observer = new MutationObserver(sync)
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class'],
-    })
-  })
-
-  onBeforeUnmount(() => {
-    observer?.disconnect()
-  })
-
   return {
+    mode,
     isDark,
+    setTheme,
   }
 }

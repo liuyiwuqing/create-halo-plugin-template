@@ -48,7 +48,7 @@ public final class PluginTemplateSeeds {
         PluginTemplateGeneralSetting generalSetting,
         PluginTemplateUiSetting uiSetting
     ) {
-        var enabledRoutes = (generalSetting.isConsoleDashboardEnabled() ? 1 : 0)
+        var enabledRoutes = (generalSetting.isConsoleDashboardEnabled() ? 2 : 0)
             + (generalSetting.isUcDashboardEnabled() ? 1 : 0);
         var enabledExtensionPoints = (generalSetting.isConsoleDashboardEnabled() ? 2 : 0)
             + (generalSetting.isAttachmentProviderEnabled() ? 1 : 0);
@@ -87,6 +87,13 @@ public final class PluginTemplateSeeds {
                 .title("Console 路由")
                 .area("UI")
                 .description("带菜单元数据和权限元数据的后台入口。")
+                .enabled(generalSetting.isConsoleDashboardEnabled())
+                .build(),
+            PluginTemplateFeatureItem.builder()
+                .key("console-crud")
+                .title("Console CRUD 管理页")
+                .area("UI / API")
+                .description("真实接入 Halo Extension 的分页、筛选、弹窗表单和增删改查示例。")
                 .enabled(generalSetting.isConsoleDashboardEnabled())
                 .build(),
             PluginTemplateFeatureItem.builder()

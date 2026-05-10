@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import PluginTemplateOverviewPage from '@/components/PluginTemplateOverviewPage.vue'
+import WorkspaceShellView from '@/views/workspace/WorkspaceShellView.vue'
 </script>
 
 <template>
-  <PluginTemplateOverviewPage audience="console" />
+  <WorkspaceShellView audience="console" />
 </template>

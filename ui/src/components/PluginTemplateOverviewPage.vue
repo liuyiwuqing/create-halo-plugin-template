@@ -1,15 +1,24 @@
 <script setup lang="ts">
-import { stores, utils } from '@halo-dev/ui-shared'
-import { ElAlert, ElButton, ElLink, ElSkeleton } from 'element-plus'
-import { storeToRefs } from 'pinia'
-import { computed, onMounted } from 'vue'
-import { buildAudienceLabel, checklistColumns, featureColumns, formatChecklistStatus } from '@/lib/template'
+import { RefreshCw } from 'lucide-vue-next'
+import { onMounted } from 'vue'
+import { t } from '@/i18n'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import BasicPage from '@/components/ui/BasicPage.vue'
+import PluginUiProvider from '@/components/ui/PluginUiProvider.vue'
 import { useTemplateOverview } from '@/composables/useTemplateOverview'
-import PluginTemplateCommonTable from './PluginTemplateCommonTable.vue'
-import PluginUiProvider from './ui/PluginUiProvider.vue'
-import UiMetricCard from './ui/UiMetricCard.vue'
-import UiSectionCard from './ui/UiSectionCard.vue'
-import UiStatusPill from './ui/UiStatusPill.vue'
+import { formatChecklistStatus, toBadgeVariant } from '@/lib/template'
 
 const props = defineProps<{
   audience: 'console' | 'uc'
@@ -18,236 +27,134 @@ const props = defineProps<{
 const { overview, loading, errorMessage, stats, features, checklist, load } =
   useTemplateOverview(props.audience)
 
-const { currentUser } = storeToRefs(stores.currentUser())
-const { globalInfo } = storeToRefs(stores.globalInfo())
-
-const viewerName = computed(
-  () =>
-    currentUser.value?.user?.spec?.displayName ||
-    currentUser.value?.user?.metadata?.name ||
-    'Halo Developer',
-)
-
-const siteTitle = computed(() => globalInfo.value?.siteTitle || 'Halo')
-const buildTime = computed(() => utils.date.format(new Date(), 'YYYY-MM-DD HH:mm'))
-const audienceLabel = computed(() => buildAudienceLabel(props.audience))
-const rsbuildGuideLink = 'https://docs.halo.run/developer-guide/plugin/basics/ui/build'
-const currentPath = computed(() =>
-  props.audience === 'console' ? overview.value?.consolePath || '/halo-plugin-template' : overview.value?.ucPath || '/halo-plugin-template',
-)
-const supportLink = computed(
-  () => overview.value?.supportLink || 'https://docs.halo.run/developer-guide/plugin/introduction',
-)
-const densityLabel = computed(() => {
-  if (overview.value?.density === 'compact') {
-    return '紧凑'
-  }
-  if (overview.value?.density === 'relaxed') {
-    return '宽松'
-  }
-  return '平衡'
-})
-
-const openExternal = (url: string) => {
-  window.open(url, '_blank')
-}
-
-const densityTone = computed(() => overview.value?.density || 'balanced')
-const attachmentState = computed(() =>
-  overview.value?.enableAttachmentProvider ? '附件已启用' : '附件已关闭',
-)
-const attachmentTone = computed(() =>
-  overview.value?.enableAttachmentProvider ? 'success' : 'warning',
-)
-
 onMounted(load)
 </script>
 
 <template>
-  <PluginUiProvider
-    :audience="audience"
-    :density="overview?.density"
-    :accent-color="overview?.accentColor"
-  >
-    <section class="halo-plugin-template-admin-page">
-      <header class="halo-plugin-template-admin-hero">
-        <div>
-          <p class="halo-plugin-template-admin-eyebrow">{{ siteTitle }} · {{ audienceLabel }}</p>
-          <h1 class="halo-plugin-template-admin-title">
-            {{ overview?.displayName || 'Halo Plugin Template' }}
-          </h1>
-          <p class="halo-plugin-template-admin-description">
-            这不是单纯的欢迎页，而是一份可重复初始化的 Halo 插件 starter：
-            默认接好 Console / UC / Element Plus / 扩展点 / OpenAPI。
-          </p>
-          <div class="halo-plugin-template-admin-meta">
-            <span class="halo-plugin-template-admin-meta-item">
-              当前查看者：{{ viewerName }}
-            </span>
-            <span class="halo-plugin-template-admin-meta-item">
-              构建时间：{{ buildTime }}
-            </span>
-            <span class="halo-plugin-template-admin-meta-item">
-              路由前缀：{{ currentPath }}
-            </span>
-          </div>
+  <PluginUiProvider :audience="audience">
+    <BasicPage :title="t('dashboard.title')" :description="t('dashboard.description')">
+      <template #actions>
+        <Button variant="outline" size="sm" :disabled="loading" @click="load">
+          <RefreshCw class="mr-2 h-4 w-4" :class="{ 'animate-spin': loading }" />
+          {{ t('common.refresh') }}
+        </Button>
+      </template>
+
+      <Alert v-if="errorMessage" variant="destructive">
+        <AlertTitle>{{ t('dashboard.title') }}</AlertTitle>
+        <AlertDescription>{{ errorMessage }}</AlertDescription>
+      </Alert>
+
+      <template v-if="loading">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <Skeleton v-for="i in 3" :key="i" class="h-28 rounded-lg" />
+        </div>
+        <Skeleton class="h-56 rounded-lg" />
+        <Skeleton class="h-72 rounded-lg" />
+      </template>
+
+      <template v-else>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <Card v-for="item in stats" :key="item.key">
+            <CardHeader class="pb-2">
+              <CardDescription>{{ item.label }}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p class="text-3xl font-bold">{{ item.value }}</p>
+              <p v-if="item.helper" class="mt-1 text-xs text-muted-foreground">
+                {{ item.helper }}
+              </p>
+            </CardContent>
+          </Card>
         </div>
 
-        <div class="halo-plugin-template-admin-hero-actions">
-          <ElButton type="primary" @click="openExternal(supportLink)">
-            Halo 插件文档
-          </ElButton>
-          <ElButton plain @click="openExternal(rsbuildGuideLink)">
-            UI 构建说明
-          </ElButton>
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>{{ t('dashboard.features.title') }}</CardTitle>
+              <CardDescription>{{ t('dashboard.features.description') }}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>{{ t('dashboard.features.name') }}</TableHead>
+                    <TableHead>{{ t('dashboard.features.area') }}</TableHead>
+                    <TableHead class="text-right">{{ t('dashboard.features.status') }}</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow v-for="item in features" :key="item.key">
+                    <TableCell class="font-medium">{{ item.title }}</TableCell>
+                    <TableCell>{{ item.area }}</TableCell>
+                    <TableCell class="text-right">
+                      <Badge :variant="item.enabled ? 'default' : 'secondary'">
+                        {{ item.enabled ? t('common.enabled') : t('common.disabled') }}
+                      </Badge>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>{{ t('dashboard.checklist.title') }}</CardTitle>
+              <CardDescription>{{ t('dashboard.checklist.description') }}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>{{ t('dashboard.checklist.task') }}</TableHead>
+                    <TableHead>{{ t('dashboard.checklist.audience') }}</TableHead>
+                    <TableHead class="text-right">{{ t('dashboard.checklist.status') }}</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow v-for="item in checklist" :key="item.key">
+                    <TableCell class="font-medium">{{ item.title }}</TableCell>
+                    <TableCell>{{ item.audience }}</TableCell>
+                    <TableCell class="text-right">
+                      <Badge :variant="toBadgeVariant(item.status)">
+                        {{ formatChecklistStatus(item.status) }}
+                      </Badge>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
         </div>
-      </header>
 
-      <ElAlert
-        v-if="errorMessage"
-        title="模板概览接口加载失败"
-        :description="errorMessage"
-        type="warning"
-        show-icon
-        :closable="false"
-      />
-
-      <ElSkeleton :loading="loading" animated :rows="6">
-        <template #default>
-          <div class="halo-plugin-template-admin-stats">
-            <UiMetricCard
-              v-for="item in stats"
-              :key="item.key"
-              :label="item.label"
-              :value="item.value"
-              :helper="item.helper"
-              :tone="item.tone"
-            />
-          </div>
-
-          <section class="halo-plugin-template-admin-grid">
-            <UiSectionCard
-              title="初始化建议"
-              description="把模板里的默认值替换干净，再继续堆业务代码。"
-            >
-              <div class="halo-plugin-template-admin-checklist">
-                <article
-                  v-for="item in checklist.slice(0, 3)"
-                  :key="item.key"
-                  class="halo-plugin-template-admin-checklist-item"
-                >
-                  <div class="halo-plugin-template-admin-checklist-copy">
-                    <h3 class="halo-plugin-template-admin-checklist-title">{{ item.title }}</h3>
-                    <p class="halo-plugin-template-admin-checklist-description">
-                      {{ item.description }}
-                    </p>
-                  </div>
-                  <UiStatusPill :label="formatChecklistStatus(item.status)" :tone="item.status" />
-                </article>
+        <Card>
+          <CardHeader>
+            <CardTitle>{{ t('dashboard.context.title') }}</CardTitle>
+            <CardDescription>{{ t('dashboard.context.description') }}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div class="space-y-1">
+                <dt class="text-sm text-muted-foreground">Setting 资源</dt>
+                <dd class="text-sm font-medium">{{ overview?.settingName || '—' }}</dd>
               </div>
-            </UiSectionCard>
-
-            <UiSectionCard
-              title="当前上下文"
-              description="这些值可以直接帮助你确认模板是否已经被成功初始化。"
-            >
-              <div class="halo-plugin-template-admin-kpis">
-                <div class="halo-plugin-template-admin-checklist-item">
-                  <div class="halo-plugin-template-admin-checklist-copy">
-                    <h3 class="halo-plugin-template-admin-checklist-title">Setting 资源</h3>
-                    <p class="halo-plugin-template-admin-checklist-description">
-                      {{ overview?.settingName }}
-                    </p>
-                  </div>
-                  <UiStatusPill label="已接线" tone="success" />
-                </div>
-                <div class="halo-plugin-template-admin-checklist-item">
-                  <div class="halo-plugin-template-admin-checklist-copy">
-                    <h3 class="halo-plugin-template-admin-checklist-title">ConfigMap 资源</h3>
-                    <p class="halo-plugin-template-admin-checklist-description">
-                      {{ overview?.configMapName }}
-                    </p>
-                  </div>
-                  <UiStatusPill label="已接线" tone="success" />
-                </div>
-                <div class="halo-plugin-template-admin-checklist-item">
-                  <div class="halo-plugin-template-admin-checklist-copy">
-                    <h3 class="halo-plugin-template-admin-checklist-title">API 输出目录</h3>
-                    <p class="halo-plugin-template-admin-checklist-description">
-                      {{ overview?.generatedClientPath }}
-                    </p>
-                  </div>
-                  <UiStatusPill label="已接线" tone="success" />
-                </div>
-                <div class="halo-plugin-template-admin-checklist-item">
-                  <div class="halo-plugin-template-admin-checklist-copy">
-                    <h3 class="halo-plugin-template-admin-checklist-title">页面密度</h3>
-                    <p class="halo-plugin-template-admin-checklist-description">
-                      {{ densityLabel }}
-                    </p>
-                  </div>
-                  <UiStatusPill :label="densityTone" tone="info" />
-                </div>
-                <div class="halo-plugin-template-admin-checklist-item">
-                  <div class="halo-plugin-template-admin-checklist-copy">
-                    <h3 class="halo-plugin-template-admin-checklist-title">主色</h3>
-                    <p class="halo-plugin-template-admin-checklist-description">
-                      {{ overview?.accentColor || '#2457F5' }}
-                    </p>
-                  </div>
-                  <UiStatusPill :label="attachmentState" :tone="attachmentTone" />
-                </div>
+              <div class="space-y-1">
+                <dt class="text-sm text-muted-foreground">ConfigMap 资源</dt>
+                <dd class="text-sm font-medium">{{ overview?.configMapName || '—' }}</dd>
               </div>
-            </UiSectionCard>
-          </section>
-
-          <UiSectionCard
-            title="功能矩阵"
-            description="这张表列出模板默认预置的前后端能力，你可以在初始化后按需删减。"
-          >
-            <PluginTemplateCommonTable
-              :rows="features"
-              :columns="featureColumns"
-              empty-description="暂无功能矩阵"
-            >
-              <template #cell-enabled="{ value }">
-                <UiStatusPill :label="value ? '已启用' : '按需接入'" :tone="value ? 'success' : 'info'" />
-              </template>
-            </PluginTemplateCommonTable>
-          </UiSectionCard>
-
-          <UiSectionCard
-            title="初始化清单"
-            description="前端和后端都通过统一的检查清单推进，避免漏掉 settings、角色模板和 API 包装层。"
-          >
-            <PluginTemplateCommonTable
-              :rows="checklist"
-              :columns="checklistColumns"
-              empty-description="暂无初始化清单"
-            >
-              <template #cell-status="{ value }">
-                <UiStatusPill :label="formatChecklistStatus(String(value))" :tone="String(value)" />
-              </template>
-            </PluginTemplateCommonTable>
-          </UiSectionCard>
-
-          <UiSectionCard
-            title="下一步"
-            description="模板的真实价值在于后续多个插件项目都沿用同一套工程边界。"
-          >
-            <ul style="margin: 0; padding-left: 18px; color: var(--halo-plugin-template-text-secondary); line-height: 1.8">
-              <li>如果你是通过 `npm create halo-plugin-template` 或 `create-project.mjs` 创建项目，初始化和一致性校验已经自动完成。</li>
-              <li>只有在手工复制模板源码仓库时，才需要额外运行初始化脚本和校验脚本。</li>
-              <li>新接口补好 Springdoc 后，执行 `./gradlew generateApiClient`，再在 `ui/src/api/index.ts` 暴露新增能力。</li>
-              <li>按插件实际范围裁剪 UC、附件扩展和工作台部件，避免模板示例残留到正式项目。</li>
-              <li>
-                如需切换到 Rsbuild，可参考
-                <ElLink :href="rsbuildGuideLink" target="_blank">Halo 官方 UI 构建说明</ElLink>。
-              </li>
-            </ul>
-          </UiSectionCard>
-        </template>
-      </ElSkeleton>
-    </section>
+              <div class="space-y-1">
+                <dt class="text-sm text-muted-foreground">API 输出目录</dt>
+                <dd class="text-sm font-medium">{{ overview?.generatedClientPath || '—' }}</dd>
+              </div>
+              <div class="space-y-1">
+                <dt class="text-sm text-muted-foreground">路由前缀</dt>
+                <dd class="text-sm font-medium">{{ overview?.consolePath || '/halo-plugin-template' }}</dd>
+              </div>
+            </dl>
+          </CardContent>
+        </Card>
+      </template>
+    </BasicPage>
   </PluginUiProvider>
 </template>

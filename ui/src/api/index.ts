@@ -5,7 +5,19 @@ import {
   PluginTemplateUcApi,
 } from '@/api/generated'
 import { normalizeOverview } from '@/api/normalizers'
-import type { PluginTemplateOverview } from '@/types'
+import {
+  buildRecordListRequest,
+  buildRecordPayload,
+  normalizeRecord,
+  normalizeRecordList,
+} from '@/lib/template-records'
+import type {
+  PluginTemplateOverview,
+  PluginTemplateRecord,
+  PluginTemplateRecordFilters,
+  PluginTemplateRecordForm,
+  PluginTemplateRecordList,
+} from '@/types'
 
 // Keep this file as the only API import surface for UI code.
 // Generated clients stay behind this wrapper so views and components never import them directly.
@@ -30,6 +42,50 @@ export const templateConsoleApi = {
     const response = await consoleApi.pluginTemplateOverviewForConsole()
     return normalizeOverview(response.data)
   },
+  listRecords: async (params: {
+    page: number
+    size: number
+    filters: PluginTemplateRecordFilters
+  }): Promise<PluginTemplateRecordList> => {
+    const response = await consoleApi.pluginTemplateRecordListForConsole(
+      buildRecordListRequest(params),
+    )
+    return normalizeRecordList(response.data)
+  },
+  getRecordById: async (id: string): Promise<PluginTemplateRecord> => {
+    const response = await consoleApi.pluginTemplateRecordListForConsole({
+      page: 1,
+      size: 200,
+      sort: ['priority,desc', 'createTime,desc'],
+      keyword: id,
+    })
+    const list = normalizeRecordList(response.data)
+    const record = list.items.find((item) => item.id === id)
+    if (!record) {
+      throw new Error(`Record ${id} not found`)
+    }
+    return record
+  },
+  createRecord: async (form: PluginTemplateRecordForm): Promise<PluginTemplateRecord> => {
+    const response = await consoleApi.pluginTemplateRecordCreateForConsole({
+      pluginTemplateRecord: buildRecordPayload(form),
+    })
+    return normalizeRecord(response.data)
+  },
+  updateRecord: async (
+    id: string,
+    form: PluginTemplateRecordForm,
+  ): Promise<PluginTemplateRecord> => {
+    const response = await consoleApi.pluginTemplateRecordUpdateForConsole({
+      id,
+      pluginTemplateRecord: buildRecordPayload({ ...form, id }),
+    })
+    return normalizeRecord(response.data)
+  },
+  deleteRecord: async (id: string): Promise<PluginTemplateRecord> => {
+    const response = await consoleApi.pluginTemplateRecordDeleteForConsole({ id })
+    return normalizeRecord(response.data)
+  },
 }
 
 export const templateUcApi = {
@@ -39,4 +95,4 @@ export const templateUcApi = {
   },
 }
 
-export type { PluginTemplateOverview }
+export type { PluginTemplateOverview, PluginTemplateRecord, PluginTemplateRecordList }

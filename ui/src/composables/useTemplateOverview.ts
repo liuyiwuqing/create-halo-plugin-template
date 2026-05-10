@@ -1,5 +1,6 @@
 import { computed, ref } from 'vue'
 import { templateConsoleApi, templateUcApi } from '@/api'
+import { t } from '@/i18n'
 import type { PluginTemplateOverview } from '@/types'
 
 type Audience = 'console' | 'uc'
@@ -20,7 +21,7 @@ export const useTemplateOverview = (audience: Audience) => {
           : await templateUcApi.getOverview()
       overview.value = response
     } catch (error) {
-      errorMessage.value = error instanceof Error ? error.message : '模板概览加载失败'
+      errorMessage.value = error instanceof Error ? error.message : t('dashboard.loadError')
     } finally {
       loading.value = false
     }

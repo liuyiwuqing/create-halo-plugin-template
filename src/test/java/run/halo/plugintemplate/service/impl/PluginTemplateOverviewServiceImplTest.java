@@ -59,7 +59,7 @@ class PluginTemplateOverviewServiceImplTest {
         assertThat(overview.getStats())
             .extracting("key", "value")
             .containsExactly(
-                org.assertj.core.groups.Tuple.tuple("routes", "1"),
+                org.assertj.core.groups.Tuple.tuple("routes", "2"),
                 org.assertj.core.groups.Tuple.tuple("extension-points", "2"),
                 org.assertj.core.groups.Tuple.tuple("ui-density", "紧凑")
             );

@@ -14,6 +14,7 @@ rules:
       - console.plugintemplate.halo.run
     resources:
       - template-overview
+      - template-records
     verbs:
       - get
       - list
@@ -34,6 +35,10 @@ rules:
       - console.plugintemplate.halo.run
     resources:
       - template-overview
+      - template-records
     verbs:
       - get
       - list
+      - create
+      - update
+      - delete

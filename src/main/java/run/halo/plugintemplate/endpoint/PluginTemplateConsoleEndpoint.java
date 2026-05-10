@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import run.halo.app.core.extension.endpoint.CustomEndpoint;
 import run.halo.app.extension.GroupVersion;
 import run.halo.plugintemplate.endpoint.routes.PluginTemplateOverviewRoutes;
+import run.halo.plugintemplate.endpoint.routes.PluginTemplateRecordRoutes;
 import run.halo.plugintemplate.setting.PluginTemplateSettingKeys;
 
 @Component
@@ -20,11 +21,13 @@ public class PluginTemplateConsoleEndpoint implements CustomEndpoint {
     public static final String CONSOLE_TAG = "PluginTemplateConsole";
 
     private final PluginTemplateOverviewRoutes overviewRoutes;
+    private final PluginTemplateRecordRoutes recordRoutes;
 
     @Override
     public RouterFunction<ServerResponse> endpoint() {
         return SpringdocRouteBuilder.route()
             .nest(RequestPredicates.path("template-overview"), overviewRoutes::consoleRoutes)
+            .nest(RequestPredicates.path("template-records"), recordRoutes::consoleRoutes)
             .build();
     }
 

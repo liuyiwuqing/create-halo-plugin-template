@@ -1,4 +1,3 @@
-import type { TagProps } from 'element-plus'
 import type { ResponsiveColumn } from '@/types'
 
 export const featureColumns: ResponsiveColumn[] = [
@@ -15,11 +14,13 @@ export const checklistColumns: ResponsiveColumn[] = [
   { key: 'status', label: '状态', minWidth: 120, align: 'right' },
 ]
 
-export const toTagType = (tone?: string): TagProps['type'] => {
+export type BadgeTone = 'default' | 'secondary' | 'outline' | 'destructive' | 'success' | 'warning'
+
+export const toBadgeVariant = (tone?: string): BadgeTone => {
   switch (tone) {
     case 'primary':
     case 'now':
-      return 'primary'
+      return 'default'
     case 'success':
     case 'done':
     case 'auto':
@@ -29,9 +30,9 @@ export const toTagType = (tone?: string): TagProps['type'] => {
     case 'todo':
       return 'warning'
     case 'danger':
-      return 'danger'
+      return 'destructive'
     default:
-      return 'info'
+      return 'secondary'
   }
 }
 

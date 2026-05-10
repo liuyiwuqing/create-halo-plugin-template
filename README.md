@@ -5,8 +5,9 @@
 这个模板默认提供：
 
 - Java 21 + Halo Plugin DevTools 基线
-- `@halo-dev/ui-shared` + `@halo-dev/components` + Element Plus 的 UI 组合
+- Vite + Vue 3 + TypeScript + Tailwind CSS + shadcn-vue 的轻量前端栈
 - Console / UC 路由骨架
+- 真实接入 Halo Extension 的 Console CRUD 示例页，覆盖分页、筛选、弹窗表单和删除确认
 - 仪表盘小部件、快速操作项、附件选择器扩展点示例
 - `settings.yaml`、Console/UC 角色模板、OpenAPI 客户端生成配置
 - 已接线的 `ui/src/api/generated` + `ui/src/api/index.ts` API 包装层
@@ -158,6 +159,19 @@ cd ..
 ./gradlew generateRoleTemplates
 ```
 
+## 前端技术栈
+
+`ui` 目录使用 Vite、Vue 3、TypeScript、Tailwind CSS 和 shadcn-vue。基础组件按需放在 `ui/src/components/ui/`，全局主题变量集中在 `ui/src/assets/index.css`，`components.json` 负责 shadcn-vue 的组件路径、Tailwind 入口和别名配置。
+
+- UI 组件：优先使用本地 shadcn-vue 风格组件和 Tailwind utility。
+- 图标：使用 `lucide-vue-next`。
+- 表单校验：使用 `vee-validate` + `zod`。
+- 消息提示：使用 `vue-sonner`。
+- 国际化：默认 `zh-CN`，入口在 `ui/src/i18n.ts`。
+- 主题：支持浅色、暗黑、跟随系统/Halo 宿主暗黑 class，并支持后端 `accentColor` 覆盖主色。
+
+VSCode 可选安装 shadcn-vue 扩展 `@selemondev.vscode-shadcn-vue`，用于快速查看文档、插入组件和使用代码片段。
+
 ## 目录说明
 
 - `src/main/java/`：后端骨架，按 `config / endpoint / query / service / scheme / reconcile / setting / utils` 分层
@@ -165,6 +179,7 @@ cd ..
 - `ui/src/index.ts`：插件 UI 唯一注册入口
 - `ui/src/components/ui/`：低层通用 UI 包装
 - `ui/src/components/`：业务级共享组件
+- `ui/src/views/console/RecordManagementView.vue`：后台管理常见 CRUD 示例页
 - `ui/src/api/index.ts`：前端唯一 API 包装出口
 - `ui/src/api/generated/`：由 `generateApiClient` 生成并已接入的客户端代码
 - `docs/rsbuild-switch.md`：从当前模板切换到 Rsbuild 的最小差异说明
@@ -185,6 +200,7 @@ cd ..
 主模板故意把 Console、UC、仪表盘、快捷操作、附件扩展和 PublicEndpoint 占位都带上了，方便你按需删减。
 
 - 若只做 Console 插件，可删除 UC 路由、UC 角色模板和相关设置。
+- 若不需要 CRUD 示例页，可删除 `template-records` 后端路由、`PluginTemplateRecord` Scheme、记录管理页面和对应菜单。
 - 若不需要附件扩展或工作台小部件，可删除对应扩展点和配套组件。
 - 具体裁剪顺序见 [docs/template-pruning.md](./docs/template-pruning.md)。
 

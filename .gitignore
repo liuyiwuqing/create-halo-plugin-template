@@ -12,6 +12,7 @@ logs/
 ### Node
 node_modules/
 .npm-cache/
+.pnpm-store/
 
 ### STS
 .apt_generated

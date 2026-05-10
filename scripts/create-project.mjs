@@ -270,12 +270,13 @@ cd ..
 - \`ui/src/index.ts\`：插件 UI 唯一注册入口
 - \`ui/src/components/ui/\`：低层通用 UI 包装
 - \`ui/src/components/\`：业务级共享组件
+- \`ui/src/views/console/RecordManagementView.vue\`：后台管理常见 CRUD 示例页
 - \`ui/src/api/index.ts\`：前端唯一 API 包装出口
 - \`ui/src/api/generated/\`：由 \`generateApiClient\` 生成并已接入的客户端代码
 
 ## 裁剪模板
 
-如果你只做 Console 页面，或不需要附件扩展、UC 页面，直接删除对应的 \`ucRoutes\`、扩展点和角色模板即可。
+如果你只做 Console 页面，或不需要附件扩展、UC 页面、CRUD 示例页，直接删除对应的 \`ucRoutes\`、扩展点、示例 Scheme、记录管理页面和角色模板即可。
 
 ## 许可证
 
