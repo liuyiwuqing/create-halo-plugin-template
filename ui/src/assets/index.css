@@ -1,155 +1,216 @@
-:root {
-  --halo-plugin-template-color-primary: #2457f5;
-  --halo-plugin-template-color-accent: #13b77a;
-  --halo-plugin-template-color-warning: #ff8f1f;
-  --halo-plugin-template-color-danger: #e14d5f;
-  --halo-plugin-template-surface: rgba(255, 255, 255, 0.92);
-  --halo-plugin-template-surface-secondary: rgba(248, 250, 252, 0.88);
-  --halo-plugin-template-surface-border: rgba(15, 23, 42, 0.08);
-  --halo-plugin-template-text-primary: #0f172a;
-  --halo-plugin-template-text-secondary: #475569;
-  --halo-plugin-template-text-muted: #64748b;
-  --halo-plugin-template-shadow: 0 18px 46px rgba(15, 23, 42, 0.08);
-  --halo-plugin-template-shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.06);
-  --halo-plugin-template-radius-xl: 28px;
-  --halo-plugin-template-radius-lg: 20px;
-  --halo-plugin-template-radius-md: 14px;
+@config "../../tailwind.config.ts";
+@import "tailwindcss/theme.css" layer(theme) theme(inline reference);
+@source "../";
+@tailwind utilities;
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline reference {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+.halo-plugin-template-admin-shell,
+.halo-plugin-template-floating-surface {
+  --radius: 0.75rem;
+  --background: #ffffff;
+  --foreground: #111111;
+  --card: #ffffff;
+  --card-foreground: #111111;
+  --popover: #ffffff;
+  --popover-foreground: #111111;
+  --primary: #111111;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #111111;
+  --muted: #f8f9fa;
+  --muted-foreground: #6b7280;
+  --accent: #f5f5f5;
+  --accent-foreground: #111111;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #111111;
+  --halo-plugin-template-color-primary: #111111;
+  --halo-plugin-template-color-accent: #3b82f6;
+  --halo-plugin-template-color-warning: #f59e0b;
+  --halo-plugin-template-color-danger: #ef4444;
+  --halo-plugin-template-page-bg: #f8f9fa;
+  --halo-plugin-template-surface: #ffffff;
+  --halo-plugin-template-surface-secondary: #f5f5f5;
+  --halo-plugin-template-surface-muted: #f8f9fa;
+  --halo-plugin-template-surface-border: #e5e7eb;
+  --halo-plugin-template-text-primary: #111111;
+  --halo-plugin-template-text-secondary: #374151;
+  --halo-plugin-template-text-muted: #6b7280;
+  --halo-plugin-template-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+  --halo-plugin-template-shadow-soft: 0 4px 12px rgb(0 0 0 / 6%);
+  --halo-plugin-template-radius-xl: 16px;
+  --halo-plugin-template-radius-lg: 12px;
+  --halo-plugin-template-radius-md: 8px;
+}
+
+.halo-plugin-template-admin-shell.dark,
+.halo-plugin-template-floating-surface.dark {
+  --background: #101010;
+  --foreground: #f8fafc;
+  --card: #1a1a1a;
+  --card-foreground: #f8fafc;
+  --popover: #1a1a1a;
+  --popover-foreground: #f8fafc;
+  --primary: #f8fafc;
+  --primary-foreground: #111111;
+  --secondary: #242424;
+  --secondary-foreground: #f8fafc;
+  --muted: #242424;
+  --muted-foreground: #a1a1aa;
+  --accent: #242424;
+  --accent-foreground: #f8fafc;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: rgb(255 255 255 / 12%);
+  --input: rgb(255 255 255 / 14%);
+  --ring: #f8fafc;
+  --halo-plugin-template-color-primary: #f8fafc;
+  --halo-plugin-template-page-bg: #101010;
+  --halo-plugin-template-surface: #1a1a1a;
+  --halo-plugin-template-surface-secondary: #242424;
+  --halo-plugin-template-surface-muted: #181818;
+  --halo-plugin-template-surface-border: rgb(255 255 255 / 12%);
+  --halo-plugin-template-text-primary: #f8fafc;
+  --halo-plugin-template-text-secondary: #d4d4d8;
+  --halo-plugin-template-text-muted: #a1a1aa;
+  --halo-plugin-template-shadow: 0 1px 2px rgb(0 0 0 / 24%);
+  --halo-plugin-template-shadow-soft: 0 8px 24px rgb(0 0 0 / 22%);
 }
 
 .halo-plugin-template-admin-shell {
   min-height: 100%;
-  color: var(--halo-plugin-template-text-primary);
+  color: var(--foreground);
+  background: var(--halo-plugin-template-page-bg);
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-variant-numeric: tabular-nums;
 }
 
-.halo-plugin-template-admin-shell.dark {
-  --halo-plugin-template-surface: rgba(15, 23, 42, 0.82);
-  --halo-plugin-template-surface-secondary: rgba(15, 23, 42, 0.72);
-  --halo-plugin-template-surface-border: rgba(148, 163, 184, 0.18);
-  --halo-plugin-template-text-primary: #e2e8f0;
-  --halo-plugin-template-text-secondary: #cbd5e1;
-  --halo-plugin-template-text-muted: #94a3b8;
-  --halo-plugin-template-shadow: 0 18px 46px rgba(2, 6, 23, 0.28);
-  --halo-plugin-template-shadow-soft: 0 10px 30px rgba(2, 6, 23, 0.24);
+.halo-plugin-template-admin-shell--compact {
+  --halo-plugin-template-density-scale: 0.9;
+}
+
+.halo-plugin-template-admin-shell--balanced {
+  --halo-plugin-template-density-scale: 1;
+}
+
+.halo-plugin-template-admin-shell--relaxed {
+  --halo-plugin-template-density-scale: 1.08;
+}
+
+.halo-plugin-template-floating-surface {
+  color: var(--foreground);
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-variant-numeric: tabular-nums;
 }
 
 .halo-plugin-template-admin-page {
   margin: 0 auto;
-  padding: 24px 24px 56px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.halo-plugin-template-admin-hero {
-  position: relative;
-  overflow: hidden;
-  padding: 28px;
-  border-radius: var(--halo-plugin-template-radius-xl);
-  background:
-    radial-gradient(circle at top left, rgba(36, 87, 245, 0.16), transparent 42%),
-    radial-gradient(circle at bottom right, rgba(19, 183, 122, 0.18), transparent 38%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 252, 0.92));
-  border: 1px solid var(--halo-plugin-template-surface-border);
-  box-shadow: var(--halo-plugin-template-shadow);
+  padding: 24px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 24px;
-}
-
-.halo-plugin-template-admin-shell.dark .halo-plugin-template-admin-hero {
-  background:
-    radial-gradient(circle at top left, rgba(36, 87, 245, 0.2), transparent 42%),
-    radial-gradient(circle at bottom right, rgba(19, 183, 122, 0.2), transparent 38%),
-    linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.82));
-}
-
-.halo-plugin-template-admin-eyebrow {
-  margin: 0 0 8px;
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--halo-plugin-template-text-muted);
-}
-
-.halo-plugin-template-admin-title {
-  margin: 0;
-  font-size: clamp(28px, 3vw, 40px);
-  line-height: 1.08;
-  font-weight: 700;
-}
-
-.halo-plugin-template-admin-description {
-  margin: 12px 0 0;
-  max-width: 760px;
-  color: var(--halo-plugin-template-text-secondary);
-  line-height: 1.7;
-}
-
-.halo-plugin-template-admin-meta {
-  margin-top: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.halo-plugin-template-admin-meta-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.62);
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  color: var(--halo-plugin-template-text-secondary);
-  font-size: 13px;
-}
-
-.halo-plugin-template-admin-shell.dark .halo-plugin-template-admin-meta-item {
-  background: rgba(15, 23, 42, 0.58);
-}
-
-.halo-plugin-template-admin-hero-actions {
-  display: flex;
-  align-items: start;
-  justify-content: flex-end;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.halo-plugin-template-admin-section {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 20px;
 }
 
-.halo-plugin-template-admin-section > * {
-  grid-column: span 12;
-}
-
-.halo-plugin-template-admin-surface {
-  border: 1px solid var(--halo-plugin-template-surface-border);
-  border-radius: var(--halo-plugin-template-radius-lg);
-  background: var(--halo-plugin-template-surface);
-  box-shadow: var(--halo-plugin-template-shadow-soft);
-}
-
-.halo-plugin-template-admin-card-header {
+.halo-plugin-template-page-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
+  gap: 20px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--halo-plugin-template-radius-xl);
+  background: var(--background);
+  box-shadow: var(--halo-plugin-template-shadow);
 }
 
-.halo-plugin-template-admin-card-title {
+.halo-plugin-template-page-header__copy {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.halo-plugin-template-page-header__eyebrow {
   margin: 0;
-  font-size: 18px;
-  font-weight: 700;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  font-weight: 500;
 }
 
-.halo-plugin-template-admin-card-description {
-  margin: 8px 0 0;
-  color: var(--halo-plugin-template-text-secondary);
-  line-height: 1.6;
+.halo-plugin-template-page-header__title {
+  margin: 0;
+  color: var(--foreground);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 650;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.halo-plugin-template-page-header__description {
+  max-width: 72ch;
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.halo-plugin-template-page-header__actions,
+.halo-plugin-template-toolbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.halo-plugin-template-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.halo-plugin-template-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--muted);
+  color: var(--muted-foreground);
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .halo-plugin-template-admin-stats {
@@ -158,112 +219,380 @@
   gap: 16px;
 }
 
-.halo-plugin-template-admin-stat {
-  height: 100%;
-  padding: 18px;
-  border-radius: var(--halo-plugin-template-radius-lg);
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(248, 250, 252, 0.86));
-}
-
-.halo-plugin-template-admin-shell.dark .halo-plugin-template-admin-stat {
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.72));
-}
-
-.halo-plugin-template-admin-stat-label {
-  margin: 0 0 8px;
-  color: var(--halo-plugin-template-text-muted);
-  font-size: 13px;
-}
-
-.halo-plugin-template-admin-stat-value {
-  margin: 0;
-  font-size: 30px;
-  font-weight: 700;
-}
-
-.halo-plugin-template-admin-stat-helper {
-  margin: 12px 0 0;
-  color: var(--halo-plugin-template-text-secondary);
-  line-height: 1.6;
-}
-
 .halo-plugin-template-admin-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  gap: 16px;
 }
 
 .halo-plugin-template-admin-kpis,
 .halo-plugin-template-admin-checklist {
   display: grid;
-  gap: 14px;
+  gap: 10px;
 }
 
 .halo-plugin-template-admin-checklist-item {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
-  padding: 14px 16px;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
   border-radius: var(--halo-plugin-template-radius-md);
-  background: var(--halo-plugin-template-surface-secondary);
-  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: var(--muted);
 }
 
 .halo-plugin-template-admin-checklist-copy {
   display: grid;
   gap: 4px;
+  min-width: 0;
 }
 
 .halo-plugin-template-admin-checklist-title {
   margin: 0;
+  color: var(--foreground);
   font-size: 14px;
   font-weight: 600;
 }
 
 .halo-plugin-template-admin-checklist-description {
   margin: 0;
-  color: var(--halo-plugin-template-text-secondary);
-  line-height: 1.5;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.55;
+  word-break: break-word;
 }
 
-.halo-plugin-template-admin-widget {
-  height: 100%;
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface) .data-page-shell {
   display: grid;
-  gap: 16px;
+  gap: 18px;
+  color: var(--foreground);
 }
 
-.halo-plugin-template-admin-widget-header {
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-page-shell__header {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  align-items: flex-start;
 }
 
-.halo-plugin-template-admin-widget-title {
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-page-shell__heading {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-page-shell__title {
   margin: 0;
-  font-size: 16px;
-  font-weight: 700;
+  color: var(--foreground);
+  font-size: clamp(24px, 2.6vw, 34px);
+  font-weight: 650;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
 }
 
-.halo-plugin-template-admin-widget-description {
-  margin: 8px 0 0;
-  color: var(--halo-plugin-template-text-secondary);
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-page-shell__description {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 14px;
   line-height: 1.6;
 }
 
-.halo-plugin-template-admin-widget-stats {
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-page-shell__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-page-shell__panel {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--halo-plugin-template-radius-xl);
+  background: var(--background);
+  box-shadow: var(--halo-plugin-template-shadow);
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-page-shell__filters {
+  margin-bottom: 16px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--halo-plugin-template-radius-lg);
+  background: var(--muted);
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-page-shell__pagination {
+  padding-top: 16px;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-table-view__desktop {
+  display: block;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-table-view__mobile {
+  display: none;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-table-view__card {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--halo-plugin-template-radius-lg);
+  background: var(--background);
+  box-shadow: var(--halo-plugin-template-shadow);
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-table-view__card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 12px;
 }
 
-.halo-plugin-template-admin-widget-stat {
-  padding: 14px;
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-table-view__card-title-group {
+  min-width: 0;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-table-view__card-title {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-table-view__card-description {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 5px 0 0;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-table-view__card-status {
+  flex-shrink: 0;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-table-view__card-meta {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-table-view__card-meta
+  div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 10px;
   border-radius: var(--halo-plugin-template-radius-md);
-  background: var(--halo-plugin-template-surface-secondary);
-  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: var(--muted);
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-table-view__card-meta
+  dt {
+  color: var(--muted-foreground);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-table-view__card-meta
+  dd {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: right;
+  word-break: break-word;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .data-table-view__card-actions {
+  margin-top: 2px;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface) .field-control {
+  display: grid;
+  gap: 8px;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .field-control--inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .field-control__copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .field-control__label {
+  color: var(--foreground);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .field-control__message {
+  color: var(--muted-foreground);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .field-control--error
+  .field-control__message {
+  color: var(--destructive);
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .field-control__input {
+  width: 100%;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .field-control__range {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .field-control--compact {
+  display: grid;
+  grid-template-columns: auto minmax(150px, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .field-control--compact
+  .field-control__label {
+  white-space: nowrap;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .field-control--compact
+  .field-control__message {
+  grid-column: 1 / -1;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface) .record-form {
+  display: grid;
+  gap: 16px;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .record-form__item,
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .record-form
+  .field-control {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .record-form__item--textarea {
+  align-items: start;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .record-field-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--foreground);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .record-field-label__aside {
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: var(--muted);
+  color: var(--muted-foreground);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .record-field-help {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .record-detail-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--halo-plugin-template-radius-lg);
+  background: var(--muted);
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .record-detail-meta__item {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .record-detail-meta__item
+  span {
+  color: var(--muted-foreground);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+  .record-detail-meta__item
+  strong {
+  color: var(--foreground);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+  word-break: break-word;
 }
 
 .halo-plugin-template-admin-attachment-list {
@@ -272,89 +601,190 @@
 }
 
 .halo-plugin-template-admin-attachment-item {
-  padding: 16px;
-  border-radius: var(--halo-plugin-template-radius-md);
-  border: 1px solid rgba(148, 163, 184, 0.14);
-  background: var(--halo-plugin-template-surface-secondary);
   display: grid;
-  gap: 12px;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--halo-plugin-template-radius-lg);
+  background: var(--background);
 }
 
 .halo-plugin-template-admin-attachment-preview {
-  width: 100%;
-  max-width: 128px;
+  width: 64px;
   aspect-ratio: 1;
-  border-radius: 18px;
-  border: 1px solid rgba(148, 163, 184, 0.14);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.9));
+  border-radius: var(--halo-plugin-template-radius-lg);
+  border: 1px solid var(--border);
+  background: var(--muted);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .halo-plugin-template-admin-attachment-preview img {
-  width: 72%;
-  height: 72%;
+  width: 70%;
+  height: 70%;
   object-fit: contain;
 }
 
-.halo-plugin-template-admin-table-desktop {
-  display: block;
-}
-
-.halo-plugin-template-admin-table-mobile {
-  display: none;
-}
-
-.halo-plugin-template-admin-table-card {
+.halo-plugin-template-admin-widget {
   display: grid;
+  gap: 14px;
+}
+
+.halo-plugin-template-admin-widget-header {
+  display: flex;
+  justify-content: space-between;
   gap: 12px;
-  padding: 16px;
-  border-radius: var(--halo-plugin-template-radius-md);
-  background: var(--halo-plugin-template-surface-secondary);
-  border: 1px solid rgba(148, 163, 184, 0.14);
+  align-items: flex-start;
 }
 
-.halo-plugin-template-admin-table-card-row {
+.halo-plugin-template-admin-widget-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.halo-plugin-template-admin-widget-description {
+  margin: 6px 0 0;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.halo-plugin-template-admin-widget-stats {
   display: grid;
-  gap: 4px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
 }
 
-.halo-plugin-template-admin-table-card-label {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--halo-plugin-template-text-muted);
-}
-
-.halo-plugin-template-admin-table-card-value {
-  color: var(--halo-plugin-template-text-primary);
+.halo-plugin-template-admin-widget-stat {
+  padding: 12px;
+  border-radius: var(--halo-plugin-template-radius-lg);
+  background: var(--muted);
+  border: 1px solid var(--border);
 }
 
 @media (max-width: 960px) {
-  .halo-plugin-template-admin-hero,
+  .halo-plugin-template-page-header,
   .halo-plugin-template-admin-grid,
   .halo-plugin-template-admin-stats {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .halo-plugin-template-page-header {
+    flex-direction: column;
+  }
+
+  .halo-plugin-template-page-header__actions {
+    justify-content: flex-start;
   }
 }
 
 @media (max-width: 768px) {
   .halo-plugin-template-admin-page {
-    padding: 18px 18px 42px;
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .halo-plugin-template-page-header {
+    padding: 18px;
+    border-radius: var(--halo-plugin-template-radius-lg);
   }
 
   .halo-plugin-template-admin-widget-stats {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .halo-plugin-template-admin-table-desktop {
+  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+    .data-page-shell__header {
+    flex-direction: column;
+  }
+
+  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+    .data-page-shell__actions {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+    .data-page-shell__actions
+    > :last-child {
+    grid-column: 1 / -1;
+  }
+
+  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+    .data-page-shell__panel {
+    padding: 12px;
+    border-radius: var(--halo-plugin-template-radius-lg);
+  }
+
+  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+    .data-page-shell__filters {
+    margin-bottom: 12px;
+    padding: 12px;
+  }
+
+  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+    .data-page-shell__pagination
+    .pagination {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+    .data-page-shell__pagination
+    .pagination__controller {
+    justify-content: space-between;
+  }
+
+  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+    .data-table-view__desktop {
     display: none;
   }
 
-  .halo-plugin-template-admin-table-mobile {
+  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+    .data-table-view__mobile {
     display: grid;
     gap: 12px;
+  }
+
+  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+    .field-control--inline {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+    .field-control--compact {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+    .record-detail-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .halo-plugin-template-admin-attachment-item {
+    grid-template-columns: 56px minmax(0, 1fr);
+  }
+
+  .halo-plugin-template-admin-attachment-item > :last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 420px) {
+  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
+    .data-page-shell__actions {
+    grid-template-columns: 1fr;
   }
 }

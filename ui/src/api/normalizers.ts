@@ -2,9 +2,19 @@ import type {
   PluginTemplateChecklistItem as RawPluginTemplateChecklistItem,
   PluginTemplateFeatureItem as RawPluginTemplateFeatureItem,
   PluginTemplateOverview as RawPluginTemplateOverview,
+  PluginTemplateRecord as RawPluginTemplateRecord,
+  PluginTemplateRecordCreateRequest,
+  PluginTemplateRecordList as RawPluginTemplateRecordList,
+  PluginTemplateRecordUpdateRequest,
   PluginTemplateStatItem as RawPluginTemplateStatItem,
 } from '@/api/generated'
-import type { PluginTemplateOverview } from '@/types'
+import type {
+  PluginTemplateOverview,
+  PluginTemplateRecordFormPayload,
+  PluginTemplateRecordListQuery,
+  PluginTemplateRecordListView,
+  PluginTemplateRecordView,
+} from '@/types'
 
 export type RawTemplateOverview = RawPluginTemplateOverview & {
   enableConsoleDashboard?: boolean
@@ -62,4 +72,95 @@ export const normalizeOverview = (overview: RawTemplateOverview): PluginTemplate
   stats: normalizeStats(overview.stats),
   features: normalizeFeatures(overview.features),
   checklist: normalizeChecklist(overview.checklist),
+})
+
+const normalizeOptional = (value?: string | null) => {
+  const normalized = value?.trim()
+  return normalized ? normalized : undefined
+}
+
+const formatRecordDateTime = (value?: string | null) => {
+  const normalized = normalizeOptional(value)
+  if (!normalized) {
+    return '—'
+  }
+
+  const isoMatch = normalized.match(/^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2})/)
+  if (isoMatch) {
+    return `${isoMatch[1]} ${isoMatch[2]}`
+  }
+
+  return normalized
+}
+
+const resolveRecordStatus = (status?: string | null) => {
+  const normalized = normalizeOptional(status) || 'draft'
+  switch (normalized) {
+    case 'draft':
+      return { status: normalized, statusLabel: '草稿', statusTone: 'warning' }
+    case 'published':
+      return { status: normalized, statusLabel: '已发布', statusTone: 'success' }
+    case 'active':
+      return { status: normalized, statusLabel: '启用', statusTone: 'success' }
+    case 'archived':
+      return { status: normalized, statusLabel: '已归档', statusTone: 'info' }
+    case 'disabled':
+      return { status: normalized, statusLabel: '已禁用', statusTone: 'danger' }
+    default:
+      return { status: normalized, statusLabel: normalized, statusTone: 'info' }
+  }
+}
+
+export const normalizeTemplateRecord = (
+  record: RawPluginTemplateRecord,
+): PluginTemplateRecordView => {
+  const status = resolveRecordStatus(record.status)
+
+  return {
+    ...record,
+    id: normalizeOptional(record.id) || '—',
+    title: normalizeOptional(record.title) || '未命名记录',
+    description: normalizeOptional(record.description) || '—',
+    status: status.status,
+    statusLabel: status.statusLabel,
+    statusTone: status.statusTone,
+    createTime: normalizeOptional(record.createTime) || '',
+    updateTime: normalizeOptional(record.updateTime) || '',
+    createTimeLabel: formatRecordDateTime(record.createTime),
+    updateTimeLabel: formatRecordDateTime(record.updateTime),
+  }
+}
+
+export const normalizeTemplateRecordList = (
+  result: RawPluginTemplateRecordList,
+): PluginTemplateRecordListView => ({
+  ...result,
+  items: (result.items || []).map((item) => normalizeTemplateRecord(item)),
+})
+
+export const toTemplateRecordListRequest = (query: PluginTemplateRecordListQuery = {}) => ({
+  page: query.page && query.page > 0 ? query.page : 1,
+  size: query.size && query.size > 0 ? query.size : 10,
+  sort: query.sort?.length ? query.sort : undefined,
+  status: normalizeOptional(query.status),
+  keyword: normalizeOptional(query.keyword),
+})
+
+const normalizedTitle = (title: string) => title.trim()
+
+export const toTemplateRecordCreateRequest = (
+  payload: PluginTemplateRecordFormPayload,
+): PluginTemplateRecordCreateRequest => ({
+  id: normalizeOptional(payload.id),
+  title: normalizedTitle(payload.title),
+  description: normalizeOptional(payload.description),
+  status: normalizeOptional(payload.status),
+})
+
+export const toTemplateRecordUpdateRequest = (
+  payload: PluginTemplateRecordFormPayload,
+): PluginTemplateRecordUpdateRequest => ({
+  title: normalizedTitle(payload.title),
+  description: normalizeOptional(payload.description),
+  status: normalizeOptional(payload.status),
 })

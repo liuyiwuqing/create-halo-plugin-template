@@ -2,6 +2,8 @@ import type {
   PluginTemplateChecklistItem as GeneratedPluginTemplateChecklistItem,
   PluginTemplateFeatureItem as GeneratedPluginTemplateFeatureItem,
   PluginTemplateOverview as GeneratedPluginTemplateOverview,
+  PluginTemplateRecord as GeneratedPluginTemplateRecord,
+  PluginTemplateRecordList as GeneratedPluginTemplateRecordList,
   PluginTemplateStatItem as GeneratedPluginTemplateStatItem,
 } from '@/api/generated'
 
@@ -51,9 +53,34 @@ export interface PluginTemplateOverview extends GeneratedPluginTemplateOverview 
   checklist: PluginTemplateChecklistItem[]
 }
 
-export interface ResponsiveColumn {
-  key: string
-  label: string
-  minWidth?: number
-  align?: 'left' | 'center' | 'right'
+export interface PluginTemplateRecordView extends GeneratedPluginTemplateRecord {
+  id: string
+  title: string
+  description: string
+  status: string
+  statusLabel: string
+  statusTone: string
+  createTime: string
+  updateTime: string
+  createTimeLabel: string
+  updateTimeLabel: string
+}
+
+export interface PluginTemplateRecordListView extends GeneratedPluginTemplateRecordList {
+  items: PluginTemplateRecordView[]
+}
+
+export interface PluginTemplateRecordListQuery {
+  page?: number
+  size?: number
+  sort?: string[]
+  status?: string
+  keyword?: string
+}
+
+export interface PluginTemplateRecordFormPayload {
+  id?: string
+  title: string
+  description?: string
+  status?: string
 }

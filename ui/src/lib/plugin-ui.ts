@@ -1,11 +1,11 @@
-export const resolveElementSize = (density?: string) => {
+export const resolveDensityClass = (density?: string) => {
   if (density === 'compact') {
-    return 'small'
+    return 'halo-plugin-template-admin-shell--compact'
   }
   if (density === 'relaxed') {
-    return 'large'
+    return 'halo-plugin-template-admin-shell--relaxed'
   }
-  return 'default'
+  return 'halo-plugin-template-admin-shell--balanced'
 }
 
 export const buildShellStyles = (accentColor?: string) => {

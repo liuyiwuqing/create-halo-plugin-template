@@ -1,18 +1,35 @@
 <script setup lang="ts">
-import { ElTag } from 'element-plus'
 import { computed } from 'vue'
-import { toTagType } from '@/lib/template'
+import { Badge } from '@/components/ui/badge'
 
 const props = defineProps<{
   label: string
   tone?: string
 }>()
 
-const tagType = computed(() => toTagType(props.tone))
+const variant = computed(() => {
+  switch (props.tone) {
+    case 'success':
+    case 'done':
+    case 'auto':
+      return 'success'
+    case 'warning':
+    case 'recommended':
+    case 'todo':
+      return 'warning'
+    case 'danger':
+      return 'destructive'
+    case 'primary':
+    case 'now':
+      return 'default'
+    default:
+      return 'secondary'
+  }
+})
 </script>
 
 <template>
-  <ElTag :type="tagType" round effect="light">
+  <Badge :variant="variant">
     {{ label }}
-  </ElTag>
+  </Badge>
 </template>

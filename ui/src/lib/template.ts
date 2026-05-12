@@ -1,21 +1,22 @@
-import type { TagProps } from 'element-plus'
-import type { ResponsiveColumn } from '@/types'
+import type { DataTableColumn } from '@/types/ui'
 
-export const featureColumns: ResponsiveColumn[] = [
+export type TemplateTagType = 'primary' | 'success' | 'warning' | 'danger' | 'info'
+
+export const featureColumns: DataTableColumn[] = [
   { key: 'title', label: '能力', minWidth: 180 },
   { key: 'area', label: '区域', minWidth: 120 },
   { key: 'description', label: '说明', minWidth: 280 },
   { key: 'enabled', label: '状态', minWidth: 120, align: 'right' },
 ]
 
-export const checklistColumns: ResponsiveColumn[] = [
+export const checklistColumns: DataTableColumn[] = [
   { key: 'title', label: '检查项', minWidth: 180 },
   { key: 'audience', label: '受众', minWidth: 120 },
   { key: 'description', label: '说明', minWidth: 260 },
   { key: 'status', label: '状态', minWidth: 120, align: 'right' },
 ]
 
-export const toTagType = (tone?: string): TagProps['type'] => {
+export const toTagType = (tone?: string): TemplateTagType => {
   switch (tone) {
     case 'primary':
     case 'now':

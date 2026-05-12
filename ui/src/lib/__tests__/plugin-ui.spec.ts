@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { buildShellStyles, resolveElementSize } from '@/lib/plugin-ui'
+import { buildShellStyles, resolveDensityClass } from '@/lib/plugin-ui'
 
 describe('plugin-ui helpers', () => {
-  it('maps density to element-plus size tokens', () => {
-    expect(resolveElementSize('compact')).toBe('small')
-    expect(resolveElementSize('balanced')).toBe('default')
-    expect(resolveElementSize('relaxed')).toBe('large')
-    expect(resolveElementSize(undefined)).toBe('default')
+  it('maps density to shell classes', () => {
+    expect(resolveDensityClass('compact')).toBe('halo-plugin-template-admin-shell--compact')
+    expect(resolveDensityClass('balanced')).toBe('halo-plugin-template-admin-shell--balanced')
+    expect(resolveDensityClass('relaxed')).toBe('halo-plugin-template-admin-shell--relaxed')
+    expect(resolveDensityClass(undefined)).toBe('halo-plugin-template-admin-shell--balanced')
   })
 
   it('creates shell style variables only when an accent color is present', () => {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ElButton } from 'element-plus'
 import logoUrl from '@/assets/logo.svg'
+import { Button } from '@/components/ui/button'
+import UiStatusPill from './ui/UiStatusPill.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -38,7 +39,7 @@ const isSelected = (value: string) => props.selected.some((item) => item === val
 </script>
 
 <template>
-  <div class="halo-plugin-template-admin-attachment-list">
+  <div class="halo-plugin-template-admin-shell halo-plugin-template-admin-attachment-list">
     <article
       v-for="asset in assets"
       :key="asset.id"
@@ -49,20 +50,18 @@ const isSelected = (value: string) => props.selected.some((item) => item === val
         <span v-else>DOC</span>
       </div>
       <div>
-        <h3 class="halo-plugin-template-admin-card-title" style="font-size: 15px">
+        <h3 class="m-0 text-sm font-semibold text-foreground">
           {{ asset.title }}
         </h3>
-        <p class="halo-plugin-template-admin-card-description">
+        <p class="mt-1 mb-0 text-sm leading-6 text-muted-foreground">
           {{ asset.description }}
         </p>
       </div>
       <div>
-        <ElButton
-          :type="isSelected(asset.value) ? 'success' : 'primary'"
-          @click="selectAsset(asset.value)"
-        >
+        <UiStatusPill v-if="isSelected(asset.value)" label="已选择" tone="success" />
+        <Button v-else size="sm" @click="selectAsset(asset.value)">
           {{ isSelected(asset.value) ? '已选择' : '选择资源' }}
-        </ElButton>
+        </Button>
       </div>
     </article>
   </div>

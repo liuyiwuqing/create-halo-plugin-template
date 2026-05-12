@@ -5,12 +5,15 @@
 这个模板默认提供：
 
 - Java 21 + Halo Plugin DevTools 基线
-- `@halo-dev/ui-shared` + `@halo-dev/components` + Element Plus 的 UI 组合
+- Vue 3 + Tailwind CSS v4 + shadcn-vue + reka-ui + lucide 的前端 UI 基线
 - Console / UC 路由骨架
 - 仪表盘小部件、快速操作项、附件选择器扩展点示例
 - `settings.yaml`、Console/UC 角色模板、OpenAPI 客户端生成配置
 - 已接线的 `ui/src/api/generated` + `ui/src/api/index.ts` API 包装层
 - 一次性初始化脚本，用于批量改插件名、包名、权限前缀和仓库信息
+
+前端业务 UI 默认统一使用 `ui/src/components/ui/` 下的 shadcn-vue 风格组件；`@halo-dev/components`
+仅用于 Halo 宿主集成场景，例如菜单图标、加载态、空状态和分页等平台组件。
 
 ## 环境要求
 

@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { ElCard } from 'element-plus'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 
 defineProps<{
   title: string
@@ -8,18 +14,18 @@ defineProps<{
 </script>
 
 <template>
-  <ElCard class="halo-plugin-template-admin-surface" shadow="never">
-    <div class="halo-plugin-template-admin-card-header">
+  <Card>
+    <CardHeader class="flex flex-row items-start justify-between gap-4 p-5">
       <div>
-        <h2 class="halo-plugin-template-admin-card-title">{{ title }}</h2>
-        <p v-if="description" class="halo-plugin-template-admin-card-description">
+        <CardTitle>{{ title }}</CardTitle>
+        <CardDescription v-if="description" class="mt-2 leading-6">
           {{ description }}
-        </p>
+        </CardDescription>
       </div>
       <slot name="actions" />
-    </div>
-    <div style="margin-top: 20px">
+    </CardHeader>
+    <CardContent class="px-5 pb-5">
       <slot />
-    </div>
-  </ElCard>
+    </CardContent>
+  </Card>
 </template>
