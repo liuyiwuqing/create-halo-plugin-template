@@ -71,7 +71,7 @@ public final class PluginTemplateSeeds {
                 .key("ui-density")
                 .label("UI 密度")
                 .value(uiDensityLabel(uiSetting.getDensity()))
-                .helper("PluginUiProvider 会把密度映射到 Element Plus 全局 size。")
+                .helper("页面密度由设置项进入概览数据，前端可按插件真实需要消费。")
                 .tone("warning")
                 .build()
         );
@@ -118,10 +118,10 @@ public final class PluginTemplateSeeds {
                 .enabled(generalSetting.isAttachmentProviderEnabled())
                 .build(),
             PluginTemplateFeatureItem.builder()
-                .key("element-plus")
-                .title("Element Plus 包装层")
+                .key("halo-components")
+                .title("TailwindCSS + Halo 官方组件")
                 .area("UI")
-                .description("低层组件集中在 ui/src/components/ui，并由 PluginUiProvider 同步主色和密度。")
+                .description("TailwindCSS 负责页面布局细节，组件层使用 @halo-dev/components，保持与 Halo Console 视觉和交互一致。")
                 .enabled(true)
                 .build(),
             PluginTemplateFeatureItem.builder()

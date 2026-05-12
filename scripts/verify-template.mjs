@@ -195,6 +195,14 @@ const assertContains = (results, content, fragment, description) => {
   fail(results, `${description} (missing: ${fragment})`)
 }
 
+const assertNotContains = (results, content, fragment, description) => {
+  if (!content.includes(fragment)) {
+    pass(results, description)
+    return
+  }
+  fail(results, `${description} (unexpected: ${fragment})`)
+}
+
 const verifyNoTemplateResidue = async (results) => {
   const files = await walkFiles(ROOT)
   const textFiles = files.filter(isTextFile)
@@ -263,7 +271,7 @@ const verifyRepo = async (args) => {
     readText('ui/src/index.ts'),
     readText('ui/src/api/index.ts'),
     readText('README.md'),
-    readText('ui/src/components/ui/PluginUiProvider.vue'),
+    readText('ui/package.json'),
   ])
 
   const pluginName = extractJavaConstant(settingKeysContent, 'PLUGIN_NAME')
@@ -318,7 +326,12 @@ const verifyRepo = async (args) => {
   assertContains(results, uiIndexContent, `path: '${resolvedConsolePath}'`, 'Console route path matches setting constants')
   assertContains(results, uiIndexContent, `path: '${resolvedUcPath}'`, 'UC route path matches setting constants')
   assertContains(results, uiIndexContent, permissionPrefix, 'UI permissions use the current plugin prefix')
-  assertContains(results, providerContent, `${pluginName}-admin-shell`, 'UI provider namespace follows the plugin prefix')
+  assertContains(results, providerContent, '"@halo-dev/components"', 'UI package uses Halo official component library')
+  assertContains(results, providerContent, '"tailwindcss"', 'UI package keeps Tailwind CSS as styling utility')
+  assertContains(results, providerContent, '"@tailwindcss/vite"', 'UI package uses Tailwind CSS Vite plugin')
+  assertNotContains(results, providerContent, '"shadcn-vue"', 'UI package no longer depends on shadcn-vue')
+  assertNotContains(results, providerContent, '"reka-ui"', 'UI package no longer depends on reka-ui')
+  assertNotContains(results, providerContent, '"lucide-vue-next"', 'UI package no longer depends on lucide-vue-next')
   assertContains(results, uiApiContent, `from '@/api/generated'`, 'UI API wrapper imports from the generated client')
 
   if (!uiApiContent.includes('/apis/')) {

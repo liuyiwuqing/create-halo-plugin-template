@@ -1,8 +1,16 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import {
+  IconExternalLinkLine,
+  IconPlug,
+  VButton,
+  VCard,
+  VPageHeader,
+  VTabbar,
+} from '@halo-dev/components'
 import type { PluginTemplateOverview } from '@/types'
 import PluginTemplateOverviewPage from './PluginTemplateOverviewPage.vue'
 import RecordManagerView from '@/views/console/RecordManagerView.vue'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 defineProps<{
   overview?: PluginTemplateOverview | null
@@ -15,66 +23,49 @@ const tabs = [
   { id: 'record-manager', label: '示例数据管理' },
 ]
 
-const defaultTab = tabs[0].id
+const activeTab = ref(tabs[0].id)
+const openPluginGuide = () => {
+  window.open('https://docs.halo.run/developer-guide/plugin/introduction', '_blank')
+}
 </script>
 
 <template>
-  <section class="template-workbench">
-    <Tabs :default-value="defaultTab" class="template-workbench__tabs">
-      <TabsList class="template-workbench__tabs-list">
-        <TabsTrigger v-for="tab in tabs" :key="tab.id" :value="tab.id">
-          {{ tab.label }}
-        </TabsTrigger>
-      </TabsList>
+  <VPageHeader :title="overview?.displayName || 'Halo Plugin Template'">
+    <template #icon>
+      <IconPlug />
+    </template>
+    <template #actions>
+      <VButton class="w-full sm:w-auto" type="secondary" @click="openPluginGuide">
+        <template #icon>
+          <IconExternalLinkLine />
+        </template>
+        Halo 插件文档
+      </VButton>
+    </template>
+  </VPageHeader>
 
-      <TabsContent value="overview" class="template-workbench__body">
-      <PluginTemplateOverviewPage
-        audience="console"
-        :overview="overview"
-        :loading="overviewLoading"
-        :error-message="overviewErrorMessage"
-      />
-      </TabsContent>
-      <TabsContent value="record-manager" class="template-workbench__body">
-        <RecordManagerView />
-      </TabsContent>
-    </Tabs>
-  </section>
+  <div class="m-0 grid gap-4 md:m-4">
+    <VCard :body-class="['!p-0', '!overflow-visible']">
+      <template #header>
+        <VTabbar
+          v-model:active-id="activeTab"
+          :items="tabs"
+          class="w-full overflow-x-auto !rounded-none"
+          type="outline"
+        />
+      </template>
+
+      <div v-if="activeTab === 'overview'" class="rounded-b-base bg-white p-3 sm:p-4">
+        <PluginTemplateOverviewPage
+          audience="console"
+          embedded
+          :overview="overview"
+          :loading="overviewLoading"
+          :error-message="overviewErrorMessage"
+        />
+      </div>
+    </VCard>
+
+    <RecordManagerView v-if="activeTab === 'record-manager'" embedded />
+  </div>
 </template>
-
-<style scoped>
-.template-workbench {
-  min-height: calc(100vh - 72px);
-  padding: 18px;
-  background: var(--halo-plugin-template-page-bg);
-}
-
-.template-workbench__tabs {
-  display: grid;
-  gap: 16px;
-}
-
-.template-workbench__tabs-list {
-  width: max-content;
-  max-width: 100%;
-  overflow-x: auto;
-  border: 1px solid var(--border);
-  background: var(--muted);
-}
-
-.template-workbench__body {
-  margin: 0;
-}
-
-@media (max-width: 768px) {
-  .template-workbench {
-    min-height: calc(100vh - 56px);
-    padding: 10px;
-  }
-
-  .template-workbench__tabs-list {
-    width: 100%;
-    justify-content: flex-start;
-  }
-}
-</style>

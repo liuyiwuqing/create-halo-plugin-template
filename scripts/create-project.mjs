@@ -268,8 +268,7 @@ cd ..
 - \`src/main/java/\`：后端骨架，按 \`config / endpoint / query / service / scheme / reconcile / setting / utils\` 分层
 - \`src/main/resources/extensions/\`：插件设置和角色模板
 - \`ui/src/index.ts\`：插件 UI 唯一注册入口
-- \`ui/src/components/ui/\`：低层通用 UI 包装
-- \`ui/src/components/\`：业务级共享组件
+- \`ui/src/components/\`：基于 TailwindCSS + \`@halo-dev/components\` 的业务级共享组件
 - \`ui/src/api/index.ts\`：前端唯一 API 包装出口
 - \`ui/src/api/generated/\`：由 \`generateApiClient\` 生成并已接入的客户端代码
 

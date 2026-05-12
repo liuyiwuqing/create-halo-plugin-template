@@ -1,7 +1,6 @@
 <script setup lang="ts">
+import { VButton, VTag } from '@halo-dev/components'
 import logoUrl from '@/assets/logo.svg'
-import { Button } from '@/components/ui/button'
-import UiStatusPill from './ui/UiStatusPill.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -39,7 +38,7 @@ const isSelected = (value: string) => props.selected.some((item) => item === val
 </script>
 
 <template>
-  <div class="halo-plugin-template-admin-shell halo-plugin-template-admin-attachment-list">
+  <div class="halo-plugin-template-attachment halo-plugin-template-admin-attachment-list">
     <article
       v-for="asset in assets"
       :key="asset.id"
@@ -49,19 +48,21 @@ const isSelected = (value: string) => props.selected.some((item) => item === val
         <img v-if="asset.id === 'logo'" :src="asset.value" alt="Template asset" />
         <span v-else>DOC</span>
       </div>
-      <div>
-        <h3 class="m-0 text-sm font-semibold text-foreground">
-          {{ asset.title }}
-        </h3>
-        <p class="mt-1 mb-0 text-sm leading-6 text-muted-foreground">
-          {{ asset.description }}
-        </p>
+      <div class="halo-plugin-template-admin-attachment-copy">
+        <h3>{{ asset.title }}</h3>
+        <p>{{ asset.description }}</p>
       </div>
-      <div>
-        <UiStatusPill v-if="isSelected(asset.value)" label="已选择" tone="success" />
-        <Button v-else size="sm" @click="selectAsset(asset.value)">
-          {{ isSelected(asset.value) ? '已选择' : '选择资源' }}
-        </Button>
+      <div class="grid w-full gap-2 sm:flex sm:w-auto sm:justify-end">
+        <VTag v-if="isSelected(asset.value)" class="w-fit" theme="primary" rounded>已选择</VTag>
+        <VButton
+          v-else
+          class="w-full sm:w-auto"
+          size="sm"
+          type="primary"
+          @click="selectAsset(asset.value)"
+        >
+          选择资源
+        </VButton>
       </div>
     </article>
   </div>

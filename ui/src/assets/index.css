@@ -1,603 +1,479 @@
 @config "../../tailwind.config.ts";
-@import "tailwindcss/theme.css" layer(theme) theme(inline reference);
+@import 'tailwindcss/theme.css' layer(theme) theme(inline reference);
 @source "../";
 @tailwind utilities;
 
-@custom-variant dark (&:is(.dark *));
-
-@theme inline reference {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-}
-
-.halo-plugin-template-admin-shell,
-.halo-plugin-template-floating-surface {
-  --radius: 0.75rem;
-  --background: #ffffff;
-  --foreground: #111111;
-  --card: #ffffff;
-  --card-foreground: #111111;
-  --popover: #ffffff;
-  --popover-foreground: #111111;
-  --primary: #111111;
-  --primary-foreground: #ffffff;
-  --secondary: #f5f5f5;
-  --secondary-foreground: #111111;
-  --muted: #f8f9fa;
-  --muted-foreground: #6b7280;
-  --accent: #f5f5f5;
-  --accent-foreground: #111111;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #e5e7eb;
-  --input: #e5e7eb;
-  --ring: #111111;
-  --halo-plugin-template-color-primary: #111111;
-  --halo-plugin-template-color-accent: #3b82f6;
-  --halo-plugin-template-color-warning: #f59e0b;
-  --halo-plugin-template-color-danger: #ef4444;
-  --halo-plugin-template-page-bg: #f8f9fa;
-  --halo-plugin-template-surface: #ffffff;
-  --halo-plugin-template-surface-secondary: #f5f5f5;
-  --halo-plugin-template-surface-muted: #f8f9fa;
-  --halo-plugin-template-surface-border: #e5e7eb;
-  --halo-plugin-template-text-primary: #111111;
-  --halo-plugin-template-text-secondary: #374151;
-  --halo-plugin-template-text-muted: #6b7280;
-  --halo-plugin-template-shadow: 0 1px 2px rgb(0 0 0 / 5%);
-  --halo-plugin-template-shadow-soft: 0 4px 12px rgb(0 0 0 / 6%);
-  --halo-plugin-template-radius-xl: 16px;
-  --halo-plugin-template-radius-lg: 12px;
-  --halo-plugin-template-radius-md: 8px;
-}
-
-.halo-plugin-template-admin-shell.dark,
-.halo-plugin-template-floating-surface.dark {
-  --background: #101010;
-  --foreground: #f8fafc;
-  --card: #1a1a1a;
-  --card-foreground: #f8fafc;
-  --popover: #1a1a1a;
-  --popover-foreground: #f8fafc;
-  --primary: #f8fafc;
-  --primary-foreground: #111111;
-  --secondary: #242424;
-  --secondary-foreground: #f8fafc;
-  --muted: #242424;
-  --muted-foreground: #a1a1aa;
-  --accent: #242424;
-  --accent-foreground: #f8fafc;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: rgb(255 255 255 / 12%);
-  --input: rgb(255 255 255 / 14%);
-  --ring: #f8fafc;
-  --halo-plugin-template-color-primary: #f8fafc;
-  --halo-plugin-template-page-bg: #101010;
-  --halo-plugin-template-surface: #1a1a1a;
-  --halo-plugin-template-surface-secondary: #242424;
-  --halo-plugin-template-surface-muted: #181818;
-  --halo-plugin-template-surface-border: rgb(255 255 255 / 12%);
-  --halo-plugin-template-text-primary: #f8fafc;
-  --halo-plugin-template-text-secondary: #d4d4d8;
-  --halo-plugin-template-text-muted: #a1a1aa;
-  --halo-plugin-template-shadow: 0 1px 2px rgb(0 0 0 / 24%);
-  --halo-plugin-template-shadow-soft: 0 8px 24px rgb(0 0 0 / 22%);
-}
-
-.halo-plugin-template-admin-shell {
+.halo-plugin-template-page {
+  width: 100%;
+  min-width: 0;
   min-height: 100%;
-  color: var(--foreground);
-  background: var(--halo-plugin-template-page-bg);
-  font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-variant-numeric: tabular-nums;
+  overflow-x: hidden;
+  background: #f8fafc;
 }
 
-.halo-plugin-template-admin-shell--compact {
-  --halo-plugin-template-density-scale: 0.9;
-}
-
-.halo-plugin-template-admin-shell--balanced {
-  --halo-plugin-template-density-scale: 1;
-}
-
-.halo-plugin-template-admin-shell--relaxed {
-  --halo-plugin-template-density-scale: 1.08;
-}
-
-.halo-plugin-template-floating-surface {
-  color: var(--foreground);
-  font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-variant-numeric: tabular-nums;
-}
-
-.halo-plugin-template-admin-page {
-  margin: 0 auto;
-  padding: 24px;
-  display: grid;
-  gap: 20px;
-}
-
-.halo-plugin-template-page-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 24px;
-  border: 1px solid var(--border);
-  border-radius: var(--halo-plugin-template-radius-xl);
-  background: var(--background);
-  box-shadow: var(--halo-plugin-template-shadow);
-}
-
-.halo-plugin-template-page-header__copy {
-  display: grid;
-  gap: 8px;
+.halo-plugin-template-page > *,
+.record-manager {
   min-width: 0;
-}
-
-.halo-plugin-template-page-header__eyebrow {
-  margin: 0;
-  color: var(--muted-foreground);
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.halo-plugin-template-page-header__title {
-  margin: 0;
-  color: var(--foreground);
-  font-size: clamp(28px, 3vw, 40px);
-  font-weight: 650;
-  line-height: 1.08;
-  letter-spacing: -0.04em;
-  text-wrap: balance;
-}
-
-.halo-plugin-template-page-header__description {
-  max-width: 72ch;
-  margin: 0;
-  color: var(--muted-foreground);
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.halo-plugin-template-page-header__actions,
-.halo-plugin-template-toolbar-actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.halo-plugin-template-meta-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.halo-plugin-template-meta-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
   max-width: 100%;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: var(--muted);
-  color: var(--muted-foreground);
-  font-size: 12px;
-  font-weight: 500;
 }
 
-.halo-plugin-template-admin-stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+.record-manager {
+  container-type: inline-size;
 }
 
-.halo-plugin-template-admin-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.halo-plugin-template-admin-kpis,
-.halo-plugin-template-admin-checklist {
-  display: grid;
-  gap: 10px;
-}
-
-.halo-plugin-template-admin-checklist-item {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--halo-plugin-template-radius-md);
-  background: var(--muted);
-}
-
-.halo-plugin-template-admin-checklist-copy {
-  display: grid;
-  gap: 4px;
-  min-width: 0;
-}
-
-.halo-plugin-template-admin-checklist-title {
-  margin: 0;
-  color: var(--foreground);
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.halo-plugin-template-admin-checklist-description {
-  margin: 0;
-  color: var(--muted-foreground);
-  font-size: 13px;
-  line-height: 1.55;
-  word-break: break-word;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface) .data-page-shell {
-  display: grid;
-  gap: 18px;
-  color: var(--foreground);
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-page-shell__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-page-shell__heading {
-  display: grid;
-  gap: 6px;
-  min-width: 0;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-page-shell__title {
-  margin: 0;
-  color: var(--foreground);
-  font-size: clamp(24px, 2.6vw, 34px);
-  font-weight: 650;
-  line-height: 1.12;
-  letter-spacing: -0.04em;
-  text-wrap: balance;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-page-shell__description {
-  margin: 0;
-  color: var(--muted-foreground);
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-page-shell__actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-page-shell__panel {
-  padding: 18px;
-  border: 1px solid var(--border);
-  border-radius: var(--halo-plugin-template-radius-xl);
-  background: var(--background);
-  box-shadow: var(--halo-plugin-template-shadow);
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-page-shell__filters {
-  margin-bottom: 16px;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--halo-plugin-template-radius-lg);
-  background: var(--muted);
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-page-shell__pagination {
-  padding-top: 16px;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-table-view__desktop {
-  display: block;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-table-view__mobile {
-  display: none;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-table-view__card {
-  display: grid;
-  gap: 12px;
-  padding: 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--halo-plugin-template-radius-lg);
-  background: var(--background);
-  box-shadow: var(--halo-plugin-template-shadow);
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-table-view__card-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-table-view__card-title-group {
-  min-width: 0;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-table-view__card-title {
-  margin: 0;
-  color: var(--foreground);
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1.35;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-table-view__card-description {
-  display: -webkit-box;
-  overflow: hidden;
-  margin: 5px 0 0;
-  color: var(--muted-foreground);
-  font-size: 13px;
-  line-height: 1.5;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-table-view__card-status {
-  flex-shrink: 0;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-table-view__card-meta {
+.halo-field {
   display: grid;
   gap: 8px;
   margin: 0;
 }
 
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-table-view__card-meta
-  div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 9px 10px;
-  border-radius: var(--halo-plugin-template-radius-md);
-  background: var(--muted);
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-table-view__card-meta
-  dt {
-  color: var(--muted-foreground);
-  font-size: 12px;
-  font-weight: 500;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-table-view__card-meta
-  dd {
-  margin: 0;
-  color: var(--foreground);
-  font-size: 13px;
-  font-weight: 600;
-  text-align: right;
-  word-break: break-word;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .data-table-view__card-actions {
-  margin-top: 2px;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface) .field-control {
-  display: grid;
-  gap: 8px;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .field-control--inline {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .field-control__copy {
-  display: grid;
-  gap: 4px;
-  min-width: 0;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .field-control__label {
-  color: var(--foreground);
+.halo-field span {
+  color: #0f172a;
   font-size: 13px;
   font-weight: 600;
   line-height: 1.2;
 }
 
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .field-control__message {
-  color: var(--muted-foreground);
+.halo-field small {
+  margin-left: 6px;
+  color: #94a3b8;
   font-size: 12px;
-  line-height: 1.45;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .field-control--error
-  .field-control__message {
-  color: var(--destructive);
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .field-control__input {
-  width: 100%;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .field-control__range {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .field-control--compact {
-  display: grid;
-  grid-template-columns: auto minmax(150px, 1fr);
-  align-items: center;
-  gap: 10px;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .field-control--compact
-  .field-control__label {
-  white-space: nowrap;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .field-control--compact
-  .field-control__message {
-  grid-column: 1 / -1;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface) .record-form {
-  display: grid;
-  gap: 16px;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .record-form__item,
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .record-form
-  .field-control {
-  display: grid;
-  gap: 8px;
-  margin: 0;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .record-form__item--textarea {
-  align-items: start;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .record-field-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--foreground);
-  font-size: 13px;
-  font-weight: 600;
-}
-
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .record-field-label__aside {
-  padding: 2px 6px;
-  border-radius: 999px;
-  background: var(--muted);
-  color: var(--muted-foreground);
-  font-size: 11px;
   font-weight: 500;
 }
 
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .record-field-help {
-  margin: 0;
-  color: var(--muted-foreground);
+.halo-field strong {
+  color: #dc2626;
+}
+
+.halo-field em {
+  color: #64748b;
   font-size: 12px;
+  font-style: normal;
   line-height: 1.45;
 }
 
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .record-detail-meta {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--halo-plugin-template-radius-lg);
-  background: var(--muted);
+.halo-input,
+.halo-select,
+.halo-textarea {
+  width: 100%;
+  border: 1px solid #dbe3ef;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #0f172a;
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+  transition:
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
 }
 
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .record-detail-meta__item {
+.halo-input,
+.halo-select {
+  height: 34px;
+  padding: 0 11px;
+}
+
+.halo-textarea {
+  min-height: 112px;
+  resize: vertical;
+  padding: 9px 11px;
+  line-height: 1.6;
+}
+
+.halo-input:focus,
+.halo-select:focus,
+.halo-textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 12%);
+}
+
+.halo-input:disabled,
+.halo-select:disabled,
+.halo-textarea:disabled {
+  background: #f8fafc;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.record-form {
   display: grid;
-  gap: 5px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 18px 24px;
+}
+
+.record-form__item {
+  grid-column: span 1;
   min-width: 0;
 }
 
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .record-detail-meta__item
-  span {
-  color: var(--muted-foreground);
-  font-size: 12px;
-  font-weight: 500;
+.record-form__item--compact {
+  grid-column: span 1;
 }
 
-:where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-  .record-detail-meta__item
-  strong {
-  color: var(--foreground);
+.record-form__item--wide {
+  grid-column: 1 / -1;
+}
+
+.record-toolbar {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+  min-width: 0;
+  padding: 26px 24px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+.record-toolbar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-width: 0;
+}
+
+.record-toolbar__intro {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.record-toolbar__title,
+.record-toolbar__description {
+  margin: 0;
+}
+
+.record-toolbar__title {
+  color: #111111;
+  font-size: 24px;
+  font-weight: 750;
+  line-height: 1.15;
+}
+
+.record-toolbar__description {
+  color: #6b7280;
   font-size: 13px;
+  line-height: 1.55;
+}
+
+.record-toolbar__filter-panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 420px) minmax(24px, 1fr) minmax(176px, 220px);
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #f1f5f9;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+.record-toolbar__keyword {
+  width: 100%;
+  max-width: 420px;
+  justify-self: start;
+}
+
+.record-toolbar__search-input {
+  height: 44px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.record-toolbar__status {
+  width: 220px;
+  grid-column: 3;
+  justify-self: end;
+}
+
+.record-toolbar__status .halo-select {
+  height: 44px;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.record-toolbar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  min-width: 0;
+}
+
+.record-action-button {
+  min-width: 88px;
+}
+
+.record-action-button--primary {
+  min-width: 120px;
+}
+
+.record-data {
+  min-width: 0;
+  border-top: 1px solid #eef2f7;
+}
+
+.record-table-wrap {
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.record-table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #ffffff;
+}
+
+.record-table th {
+  height: 42px;
+  padding: 0 16px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.record-table td {
+  padding: 15px 16px;
+  border-bottom: 1px solid #eef2f7;
+  color: #334155;
+  font-size: 13px;
+  line-height: 1.5;
+  vertical-align: middle;
+}
+
+.record-table tbody tr {
+  transition: background-color 0.16s ease;
+}
+
+.record-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.record-table__identity {
+  width: 25%;
+  min-width: 220px;
+}
+
+.record-table__identity small,
+.record-mobile-card__identity small {
+  display: block;
+  margin-top: 5px;
+  color: #64748b;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.record-title-button {
+  max-width: 100%;
+  border: 0;
+  background: transparent;
+  color: #0f172a;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.4;
+  padding: 0;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.record-title-button:hover {
+  color: #2563eb;
+}
+
+.record-table__description {
+  width: 28%;
+  min-width: 220px;
+  color: #64748b;
+}
+
+.record-table__description span {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.record-table__time {
+  width: 132px;
+  color: #475569;
+  white-space: nowrap;
+}
+
+.record-table__actions-head {
+  text-align: right;
+}
+
+.record-row-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 56px);
+  justify-content: end;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.record-row-actions > * {
+  width: 56px;
+}
+
+.record-card-list {
+  display: none;
+}
+
+.record-mobile-card {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.record-mobile-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.record-mobile-card__identity {
+  min-width: 0;
+}
+
+.record-mobile-card__description {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.record-mobile-card__meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 12px;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.record-mobile-card__meta dt {
+  color: #64748b;
+  font-size: 12px;
   font-weight: 600;
-  line-height: 1.35;
-  word-break: break-word;
+}
+
+.record-mobile-card__meta dd {
+  margin: 4px 0 0;
+  color: #1f2937;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.record-mobile-card__actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.record-modal {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+
+.record-modal-shell .modal-body {
+  padding: 20px 24px;
+}
+
+.record-modal-shell .modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 14px 24px;
+}
+
+.record-modal-shell .modal-footer .button-wrapper {
+  min-width: 92px;
+}
+
+.record-modal-shell .modal-footer > .btn {
+  min-width: 92px;
+}
+
+.record-modal__fullscreen-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #f9fafb;
+  color: #4b5563;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.record-modal__fullscreen-button:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.record-modal__fullscreen-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.record-modal--fullscreen .modal-body {
+  min-height: 0 !important;
+}
+
+.record-modal--fullscreen .record-modal {
+  min-height: 0 !important;
+}
+
+.record-modal--fullscreen .record-form {
+  align-content: start;
+}
+
+html.record-modal-page-scroll-locked,
+body.record-modal-page-scroll-locked {
+  height: 100%;
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+
+body.record-modal-page-scroll-locked > .os-scrollbar {
+  display: none !important;
+}
+
+.is-spinning {
+  animation: halo-plugin-template-spin 1s linear infinite;
 }
 
 .halo-plugin-template-admin-attachment-list {
   display: grid;
   gap: 12px;
+  padding: 12px;
 }
 
 .halo-plugin-template-admin-attachment-item {
@@ -606,22 +482,22 @@
   align-items: center;
   gap: 14px;
   padding: 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--halo-plugin-template-radius-lg);
-  background: var(--background);
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
 }
 
 .halo-plugin-template-admin-attachment-preview {
-  width: 64px;
-  aspect-ratio: 1;
-  border-radius: var(--halo-plugin-template-radius-lg);
-  border: 1px solid var(--border);
-  background: var(--muted);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 64px;
+  aspect-ratio: 1;
   overflow: hidden;
-  color: var(--muted-foreground);
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #64748b;
   font-size: 12px;
   font-weight: 600;
 }
@@ -632,145 +508,159 @@
   object-fit: contain;
 }
 
-.halo-plugin-template-admin-widget {
-  display: grid;
-  gap: 14px;
-}
-
-.halo-plugin-template-admin-widget-header {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  align-items: flex-start;
-}
-
-.halo-plugin-template-admin-widget-title {
+.halo-plugin-template-admin-attachment-copy h3 {
   margin: 0;
-  font-size: 15px;
+  color: #0f172a;
+  font-size: 14px;
   font-weight: 600;
 }
 
-.halo-plugin-template-admin-widget-description {
-  margin: 6px 0 0;
-  color: var(--muted-foreground);
+.halo-plugin-template-admin-attachment-copy p {
+  margin: 4px 0 0;
+  color: #64748b;
   font-size: 13px;
-  line-height: 1.55;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
 }
 
-.halo-plugin-template-admin-widget-stats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.halo-plugin-template-admin-widget-stat {
-  padding: 12px;
-  border-radius: var(--halo-plugin-template-radius-lg);
-  background: var(--muted);
-  border: 1px solid var(--border);
-}
-
-@media (max-width: 960px) {
-  .halo-plugin-template-page-header,
-  .halo-plugin-template-admin-grid,
-  .halo-plugin-template-admin-stats {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .halo-plugin-template-page-header {
-    flex-direction: column;
-  }
-
-  .halo-plugin-template-page-header__actions {
-    justify-content: flex-start;
+@keyframes halo-plugin-template-spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
-@media (max-width: 768px) {
-  .halo-plugin-template-admin-page {
+@media (max-width: 1024px) {
+  .record-toolbar {
+    grid-template-columns: 1fr;
+    gap: 14px;
     padding: 14px;
+  }
+
+  .record-toolbar__header {
+    flex-direction: column;
     gap: 14px;
   }
 
-  .halo-plugin-template-page-header {
-    padding: 18px;
-    border-radius: var(--halo-plugin-template-radius-lg);
+  .record-toolbar__filter-panel {
+    grid-template-columns: 1fr;
+    justify-content: stretch;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 12px;
   }
 
-  .halo-plugin-template-admin-widget-stats {
-    grid-template-columns: minmax(0, 1fr);
+  .record-toolbar__keyword {
+    max-width: none;
   }
 
-  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-    .data-page-shell__header {
-    flex-direction: column;
-  }
-
-  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-    .data-page-shell__actions {
-    display: grid;
+  .record-toolbar__status {
     width: 100%;
-    grid-template-columns: 1fr 1fr;
+    grid-column: 1;
+    justify-self: stretch;
   }
 
-  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-    .data-page-shell__actions
-    > :last-child {
-    grid-column: 1 / -1;
+  .record-toolbar__actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: stretch;
+    gap: 8px;
+    padding-top: 12px;
   }
 
-  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-    .data-page-shell__panel {
-    padding: 12px;
-    border-radius: var(--halo-plugin-template-radius-lg);
+  .record-action-button,
+  .record-action-button--primary {
+    width: 100%;
+    min-width: 0;
   }
 
-  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-    .data-page-shell__filters {
-    margin-bottom: 12px;
-    padding: 12px;
-  }
-
-  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-    .data-page-shell__pagination
-    .pagination {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-    .data-page-shell__pagination
-    .pagination__controller {
-    justify-content: space-between;
-  }
-
-  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-    .data-table-view__desktop {
+  .record-table-wrap {
     display: none;
   }
 
-  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-    .data-table-view__mobile {
+  .record-card-list {
     display: grid;
     gap: 12px;
+    padding: 12px;
+    background: #f8fafc;
   }
 
-  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-    .field-control--inline {
-    align-items: flex-start;
+}
+
+@container (max-width: 920px) {
+  .record-toolbar {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .record-toolbar__header {
     flex-direction: column;
+    gap: 14px;
   }
 
-  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-    .field-control--compact {
+  .record-toolbar__filter-panel {
     grid-template-columns: 1fr;
-    align-items: stretch;
+    justify-content: stretch;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 12px;
   }
 
-  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-    .record-detail-meta {
+  .record-toolbar__keyword {
+    max-width: none;
+  }
+
+  .record-toolbar__status {
+    width: 100%;
+    grid-column: 1;
+    justify-self: stretch;
+  }
+
+  .record-toolbar__actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: stretch;
+    gap: 8px;
+    padding-top: 12px;
+  }
+
+  .record-action-button,
+  .record-action-button--primary {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .record-table-wrap {
+    display: none;
+  }
+
+  .record-card-list {
+    display: grid;
+    gap: 12px;
+    padding: 12px;
+    background: #f8fafc;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .record-form {
     grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .record-form__item,
+  .record-form__item--compact,
+  .record-form__item--wide {
+    grid-column: 1 / -1;
+  }
+
+  .record-modal-shell .modal-body {
+    padding: 16px;
+  }
+
+  .record-modal-shell .modal-footer {
+    padding: 12px 16px;
   }
 
   .halo-plugin-template-admin-attachment-item {
@@ -782,9 +672,56 @@
   }
 }
 
-@media (max-width: 420px) {
-  :where(.halo-plugin-template-admin-shell, .halo-plugin-template-floating-surface)
-    .data-page-shell__actions {
+@media (max-width: 520px) {
+  .record-toolbar__actions,
+  .record-mobile-card__actions,
+  .record-mobile-card__meta,
+  .record-modal-shell .modal-footer {
     grid-template-columns: 1fr;
+  }
+
+  .record-modal-shell .modal-footer {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .record-modal-shell .modal-footer .button-wrapper {
+    width: 100%;
+  }
+
+  .record-modal-shell .modal-footer > .btn {
+    width: 100%;
+  }
+
+  .record-card-list {
+    padding: 10px;
+  }
+
+  .record-mobile-card {
+    padding: 14px;
+  }
+
+  .record-mobile-card__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .halo-plugin-template-admin-attachment-list {
+    padding: 8px;
+  }
+
+  .halo-plugin-template-admin-attachment-item {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .halo-plugin-template-admin-attachment-preview {
+    width: 56px;
+  }
+
+  .halo-plugin-template-admin-attachment-item > :last-child {
+    width: 100%;
   }
 }

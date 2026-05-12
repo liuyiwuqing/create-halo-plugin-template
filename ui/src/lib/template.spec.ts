@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildAudienceLabel, formatCellValue, formatChecklistStatus, toTagType } from './template'
+import { buildAudienceLabel, formatCellValue, formatChecklistStatus, toTagTheme } from './template'
 
 describe('template helpers', () => {
   it('maps known audiences to readable labels', () => {
@@ -15,14 +15,15 @@ describe('template helpers', () => {
     expect(formatCellValue('')).toBe('—')
   })
 
-  it('maps semantic tones to Element Plus tags', () => {
-    expect(toTagType('primary')).toBe('primary')
-    expect(toTagType('now')).toBe('primary')
-    expect(toTagType('success')).toBe('success')
-    expect(toTagType('done')).toBe('success')
-    expect(toTagType('recommended')).toBe('warning')
-    expect(toTagType('todo')).toBe('warning')
-    expect(toTagType('unknown')).toBe('info')
+  it('maps semantic tones to Halo tag themes', () => {
+    expect(toTagTheme('primary')).toBe('primary')
+    expect(toTagTheme('now')).toBe('primary')
+    expect(toTagTheme('success')).toBe('primary')
+    expect(toTagTheme('done')).toBe('primary')
+    expect(toTagTheme('recommended')).toBe('secondary')
+    expect(toTagTheme('todo')).toBe('secondary')
+    expect(toTagTheme('danger')).toBe('danger')
+    expect(toTagTheme('unknown')).toBe('default')
   })
 
   it('formats checklist statuses for display', () => {

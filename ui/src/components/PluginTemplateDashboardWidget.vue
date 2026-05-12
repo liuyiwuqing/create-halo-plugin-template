@@ -2,9 +2,8 @@
 import { computed, onMounted, ref } from 'vue'
 import { templateConsoleApi } from '@/api'
 import type { PluginTemplateOverview } from '@/types'
-import UiStatusPill from './ui/UiStatusPill.vue'
-import { Card, CardContent } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
+import { toTagTheme } from '@/lib/template'
+import { VCard, VLoading, VTag } from '@halo-dev/components'
 
 const loading = ref(true)
 const overview = ref<PluginTemplateOverview | null>(null)
@@ -25,49 +24,48 @@ onMounted(load)
 </script>
 
 <template>
-  <Card class="halo-plugin-template-admin-shell">
-    <CardContent class="halo-plugin-template-admin-widget p-5">
-      <template v-if="loading">
-        <Skeleton class="h-20 w-full" />
-        <div class="grid grid-cols-2 gap-3">
-          <Skeleton v-for="index in 4" :key="index" class="h-24" />
-        </div>
-      </template>
+  <VCard class="halo-plugin-template-widget">
+    <div class="grid gap-4">
+      <VLoading v-if="loading" />
 
       <template v-else>
-        <header class="halo-plugin-template-admin-widget-header">
-          <div>
-            <h3 class="halo-plugin-template-admin-widget-title">模板工作台</h3>
-            <p class="halo-plugin-template-admin-widget-description">
+        <header
+          class="flex flex-col gap-3 min-[420px]:flex-row min-[420px]:items-start min-[420px]:justify-between"
+        >
+          <div class="min-w-0">
+            <h3 class="m-0 text-sm font-semibold text-gray-950">模板工作台</h3>
+            <p class="m-0 mt-1 text-xs leading-5 text-gray-500">
               Console、UC、扩展点与 OpenAPI 状态。
             </p>
           </div>
-          <UiStatusPill label="Live" tone="success" />
+          <VTag class="w-fit shrink-0" theme="primary" rounded>Live</VTag>
         </header>
 
-        <section v-if="primaryStat" class="rounded-lg bg-muted p-4">
-          <p class="m-0 text-sm text-muted-foreground">{{ primaryStat.label }}</p>
-          <p class="mt-2 mb-0 text-3xl font-semibold tracking-[-0.04em] text-foreground">
-            {{ primaryStat.value }}
-          </p>
-          <p class="mt-2 mb-0 text-sm leading-6 text-muted-foreground">
-            {{ primaryStat.helper }}
-          </p>
+        <section
+          v-if="primaryStat"
+          class="grid gap-2 rounded border border-gray-200 bg-gray-50 p-4"
+        >
+          <p class="m-0 text-sm leading-6 text-gray-500">{{ primaryStat.label }}</p>
+          <strong class="text-3xl leading-none text-gray-950">{{ primaryStat.value }}</strong>
+          <span class="text-sm leading-6 text-gray-500">{{ primaryStat.helper }}</span>
         </section>
 
-        <div class="halo-plugin-template-admin-widget-stats">
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,180px),1fr))] gap-3">
           <article
             v-for="item in features"
             :key="item.key"
-            class="halo-plugin-template-admin-widget-stat"
+            class="grid gap-2 rounded border border-gray-200 bg-gray-50 p-3"
           >
-            <h4 class="m-0 text-sm font-semibold text-foreground">{{ item.title }}</h4>
-            <p class="mt-2 mb-0 line-clamp-3 text-xs leading-5 text-muted-foreground">
-              {{ item.description }}
-            </p>
+            <div class="flex items-start justify-between gap-2">
+              <h4 class="m-0 text-sm font-semibold text-gray-950">{{ item.title }}</h4>
+              <VTag :theme="toTagTheme(item.enabled ? 'success' : 'info')" rounded>
+                {{ item.enabled ? '已启用' : '按需接入' }}
+              </VTag>
+            </div>
+            <p class="m-0 text-xs leading-5 text-gray-500">{{ item.description }}</p>
           </article>
         </div>
       </template>
-    </CardContent>
-  </Card>
+    </div>
+  </VCard>
 </template>

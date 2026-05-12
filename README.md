@@ -5,15 +5,16 @@
 这个模板默认提供：
 
 - Java 21 + Halo Plugin DevTools 基线
-- Vue 3 + Tailwind CSS v4 + shadcn-vue + reka-ui + lucide 的前端 UI 基线
+- Vue 3 + TailwindCSS + `@halo-dev/ui-shared` + `@halo-dev/api-client` + `@halo-dev/components` 的官方前端 UI 基线
 - Console / UC 路由骨架
 - 仪表盘小部件、快速操作项、附件选择器扩展点示例
 - `settings.yaml`、Console/UC 角色模板、OpenAPI 客户端生成配置
 - 已接线的 `ui/src/api/generated` + `ui/src/api/index.ts` API 包装层
 - 一次性初始化脚本，用于批量改插件名、包名、权限前缀和仓库信息
 
-前端业务 UI 默认统一使用 `ui/src/components/ui/` 下的 shadcn-vue 风格组件；`@halo-dev/components`
-仅用于 Halo 宿主集成场景，例如菜单图标、加载态、空状态和分页等平台组件。
+前端页面默认使用 TailwindCSS 处理布局、间距、颜色和响应式细节，组件层使用 Halo 官方推荐的
+`@halo-dev/components` 与 `@halo-dev/ui-shared`；只保留 `unplugin-icons` / Iconify 作为图标构建辅助，
+不再预置 shadcn-vue、reka-ui、lucide 这类额外三方 UI 组件库。
 
 ## 环境要求
 
@@ -166,8 +167,7 @@ cd ..
 - `src/main/java/`：后端骨架，按 `config / endpoint / query / service / scheme / reconcile / setting / utils` 分层
 - `src/main/resources/extensions/`：插件设置和角色模板
 - `ui/src/index.ts`：插件 UI 唯一注册入口
-- `ui/src/components/ui/`：低层通用 UI 包装
-- `ui/src/components/`：业务级共享组件
+- `ui/src/components/`：基于 TailwindCSS + `@halo-dev/components` 的业务级共享组件
 - `ui/src/api/index.ts`：前端唯一 API 包装出口
 - `ui/src/api/generated/`：由 `generateApiClient` 生成并已接入的客户端代码
 - `docs/rsbuild-switch.md`：从当前模板切换到 Rsbuild 的最小差异说明

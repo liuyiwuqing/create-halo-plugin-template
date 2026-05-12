@@ -1,6 +1,6 @@
 import type { DataTableColumn } from '@/types/ui'
 
-export type TemplateTagType = 'primary' | 'success' | 'warning' | 'danger' | 'info'
+export type TemplateTagTheme = 'default' | 'primary' | 'secondary' | 'danger'
 
 export const featureColumns: DataTableColumn[] = [
   { key: 'title', label: '能力', minWidth: 180 },
@@ -16,7 +16,7 @@ export const checklistColumns: DataTableColumn[] = [
   { key: 'status', label: '状态', minWidth: 120, align: 'right' },
 ]
 
-export const toTagType = (tone?: string): TemplateTagType => {
+export const toTagTheme = (tone?: string): TemplateTagTheme => {
   switch (tone) {
     case 'primary':
     case 'now':
@@ -24,15 +24,15 @@ export const toTagType = (tone?: string): TemplateTagType => {
     case 'success':
     case 'done':
     case 'auto':
-      return 'success'
+      return 'primary'
     case 'warning':
     case 'recommended':
     case 'todo':
-      return 'warning'
+      return 'secondary'
     case 'danger':
       return 'danger'
     default:
-      return 'info'
+      return 'default'
   }
 }
 

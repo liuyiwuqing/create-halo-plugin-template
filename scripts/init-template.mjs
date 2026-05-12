@@ -25,7 +25,7 @@ const TEMPLATE = {
   authorWebsite: 'https://github.com/example',
   repoOwner: 'example',
   description:
-    'Halo plugin starter with Vite, Element Plus, extension points, and an initialization script.',
+    'Halo plugin starter with Vite, TailwindCSS, Halo official UI components, extension points, and an initialization script.',
 }
 
 const TEMPLATE_PACKAGE_PATH = TEMPLATE.basePackage.split('.').join('/')

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import PluginUiProvider from '@/components/ui/PluginUiProvider.vue'
 import PluginTemplateConsoleWorkbench from '@/components/PluginTemplateConsoleWorkbench.vue'
 import { useTemplateOverview } from '@/composables/useTemplateOverview'
 
@@ -9,15 +8,11 @@ void load()
 </script>
 
 <template>
-  <PluginUiProvider
-    audience="console"
-    :density="overview?.density"
-    :accent-color="overview?.accentColor"
-  >
+  <div class="halo-plugin-template-page">
     <PluginTemplateConsoleWorkbench
       :overview="overview"
       :overview-loading="loading"
       :overview-error-message="errorMessage"
     />
-  </PluginUiProvider>
+  </div>
 </template>
